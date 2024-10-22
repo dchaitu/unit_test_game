@@ -1,0 +1,35 @@
+{
+  "no_of_tunnels": 1,
+  "no_of_tiles_in_tunnel": 3,
+  "tiles":[
+    {
+      "tile_key": "t_0_0",
+      "is_ant_present": true,
+      "ant_image": "assets/gifs/ant_harvester.gif",
+      "is_bee_present": false,
+      "no_of_bees": 0,
+      "ground_tile": "assets/images/ground_tile_1.png",
+      "sky_tile":  "assets/images/sky_1.png"
+    },
+    {
+      "tile_key": "t_0_1",
+      "is_ant_present": false,
+      "ant_image": null,
+      "is_bee_present": false,
+      "no_of_bees": 0,
+      "ground_tile": "assets/images/ground_tile_2.png",
+      "sky_tile":  "assets/images/sky_1.png"
+    },
+    {
+      "tile_key": "t_0_2",
+      "is_ant_present": true,
+      "ant_image": "assets/gifs/ant_thrower.gif",
+      "is_bee_present": true,
+      "no_of_bees": 1,
+      "ground_tile": "assets/images/ground_tile_2.png",
+      "sky_tile":  "assets/images/sky_2.png"
+    }
+
+  ]
+
+}
