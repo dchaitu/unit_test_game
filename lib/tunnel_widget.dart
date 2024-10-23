@@ -15,7 +15,7 @@ class TunnelWidget extends StatelessWidget {
     List<TileWidget> tileWidgets = [];
 
     for (int i = 0; i < tiles.length - 1; i++) {
-      tiles[i] = tiles[i].copyWith(nextTile: tiles[i + 1]);
+      tiles[i].nextTile = tiles[i + 1];
     }
 
     for(int i=0; i< tiles.length;i++) {

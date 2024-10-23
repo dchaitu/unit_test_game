@@ -1,17 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:unit_test_game/bee_widget.dart';
 
+import 'ant.dart';
+import 'bee.dart';
 import 'constants/image_assets.dart';
 import 'tile.dart';
 
-final gameCompletedProvider = StateNotifierProvider<GameNotifier, bool>((ref) {
-  return GameNotifier(value: false);
+final gameCompletedProvider = StateNotifierProvider<GameNotifier, GameCompleted>((ref) {
+  return GameNotifier(gameStates: GameCompleted());
 });
 
 final timerStateProvider = StateNotifierProvider<TimerNotifier, int>((ref) {
-  return TimerNotifier(countdown: 15);
+  return TimerNotifier(countdown: 5);
 });
 
 final tilesProvider = StateNotifierProvider<TilesNotifier, List<Tile>>((ref)
@@ -23,35 +24,42 @@ final tilesProvider = StateNotifierProvider<TilesNotifier, List<Tile>>((ref)
           antImagePath: ImageAssets.antThrower,
           groundTileImgUrl: ImageAssets.groundTile1,
           skyTileImgUrl: ImageAssets.sky1,
-          noOfBees: 0,
+          bees: [],
+          ant: Ant(),
         ),
         Tile(
           tileKey: "tileKey_2",
           antImagePath: ImageAssets.antThrower,
           groundTileImgUrl: ImageAssets.groundTile1,
           skyTileImgUrl: ImageAssets.sky1,
-          noOfBees: 0,
+          bees: [],
+          ant: Ant(),
+
         ),
         Tile(
           tileKey: "tileKey_3",
           antImagePath: ImageAssets.antThrower,
           groundTileImgUrl: ImageAssets.groundTile1,
           skyTileImgUrl: ImageAssets.sky1,
-          noOfBees: 0,
+          bees: [],
+          ant: Ant(),
+
         ),
         Tile(
           tileKey: "tileKey_4",
           antImagePath: null,
           groundTileImgUrl: ImageAssets.groundTile1,
           skyTileImgUrl: ImageAssets.sky1,
-          noOfBees: 1,
+          bees: [Bee()],
+          ant: null,
         ),
         Tile(
           tileKey: "tileKey_5",
           antImagePath: null,
           groundTileImgUrl: ImageAssets.groundTile1,
           skyTileImgUrl: ImageAssets.sky1,
-          noOfBees: 2,
+          bees: [Bee(), Bee()],
+          ant: null,
         )
 
 
@@ -65,25 +73,56 @@ final tilesProvider = StateNotifierProvider<TilesNotifier, List<Tile>>((ref)
 
 class TimerNotifier extends StateNotifier<int> {
   TimerNotifier({countdown}) : super(countdown);
-  late Timer timer;
+  Timer? _timer;
   void runCountdown() {
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      state -= 1;
-      if (state <= 0) timer.cancel();
+    if (_timer != null && _timer!.isActive) return;
+
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    if(state>0) {
+        state = state - 1;
+      }
+      else {
+        print("Timer stopped");
+        timer.cancel();
+      }
     });
   }
-  void stopTimer()
+
+  @override
+  void dispose()
   {
-    timer.cancel();
+    _timer?.cancel();
+    super.dispose();
   }
 }
 
-class GameNotifier extends StateNotifier<bool> {
-  GameNotifier({value}): super(value);
+class GameCompleted {
+  bool beesWon = false;
+  bool antsWon = false;
+  bool timeCompleted = false;
 
-  void updateGameState()
-  {
-    state = true;
+  GameCompleted({this.beesWon = false, this.antsWon = false, this.timeCompleted = false});
+
+  GameCompleted copyWith({bool? beesWon, bool? antsWon, bool? timeCompleted}) {
+    return GameCompleted(
+      beesWon: beesWon ?? this.beesWon,
+      antsWon: antsWon ?? this.antsWon,
+      timeCompleted: timeCompleted ?? this.timeCompleted,
+    );
+  }
+}
+
+class GameNotifier extends StateNotifier<GameCompleted> {
+  GameNotifier({gameStates}): super(gameStates);
+
+  void beesWonGameState() {
+    state = state.copyWith(beesWon: true);
+  }
+  void antsWonGameState() => state = state.copyWith(antsWon: true);
+
+  void timesUpGameState() {
+    state = state.copyWith(timeCompleted: true);
   }
 }
 
@@ -95,75 +134,84 @@ class TilesNotifier extends StateNotifier<List<Tile>> {
   // FIXME: Update state of each tile after a Duration of 2 seconds
   void moveBeeForward()
   {
-    final List<Tile> updatedTiles = [];
     print("Bee moving forward");
     for (int i = state.length - 1; i > 0; i--)
     {
       Future.delayed(Duration(seconds: (state.length - i)*2), () {
 
-        while(state[i].isBeePresent) {
-          state[i].noOfBees -=1;
-          state[i-1].noOfBees +=1;
-          updatedTiles.add(state[i]);
-          updatedTiles.add(state[i-1]);
+        if(state[i].isBeePresent) {
+          Bee bee = state[i].bees!.last;
+          state[i].bees!.remove(bee);
+          state[i-1].bees!.add(bee);
           print("Updating state...");
           state = [...state];
         }
+
         print("Present Tile $i");
       });
 
+
     }
 
   }
 
-  void nearestBee()
+
+
+  Tile? nearestBee(Tile tile)
   {
-    for(int i=0;i<state.length;i++)
-    {
-      if(state[i].isBeePresent==true)
+    int distance = 3;
+    int currDis = 0;
+
+
+    while(currDis<distance)
       {
-        print("Nearest Bee is ${state[i].tileKey}");
-        break;
+        print("curr tile ${tile.tileKey}");
+        if(tile.isBeePresent) {
+          antAttack(tile);
+        return tile;
+        }
+        else if(tile.nextTile !=null)
+          {
+            currDis++;
+            print("currDis:- ${currDis}");
+            tile= tile.nextTile!;
+          }
       }
-    }
+      return null;
+
 
   }
 
-  bool antSpecialAttack() {
-    int distance = 1;
-    for (int i = 0; i < state.length; i++) {
-      if (state[i].isAntPresent == true) {
-        for (int j = 0; j <= distance; j++) {
-          if (state[i + j].isBeePresent == true) {
-            print("Attacking bee at ${state[i+j].tileKey}");
-            return true;
+
+
+  void antAttack(Tile tile)
+  {
+    print("Ant attacking... tiles= ${state.length}");
+    for(int i=0;i< state.length;i++) {
+      if (state[i].tileKey==tile.tileKey) {
+        {
+          Bee bee = state[i].bees!.last;
+          bee.reduceBeeHealth();
+          if(bee.health<=0) {
+            print("Removing bee");
+            state[i].bees!.remove(bee);
+          } else {
+            state[i].bees!.last = bee;
           }
+
+          print("Bee health: ${bee.health}");
+          state[i].copyWith(bees: state[i].bees);
+        state = [...state];
         }
       }
     }
-    return false;
-  }
 
-  void antAttack()
-  {
-
-    print("Ant attacking... tiles= ${state.length}");
-    state = [
-      for(int i=0;i< state.length;i++)
-
-        if(state[i].isAntPresent==true && state[i].isBeePresent == true )
-
-          state[i].copyWith(noOfBees: state[i].noOfBees-1)
-        else
-          state[i]
-
-    ];
   }
   void showTileDetails()
   {
     for(int i=0;i<state.length;i++)
     {
-      print("isAntPresent: ${state[i].isAntPresent}, antImagePath: ${state[i].antImagePath} , Bees: ${state[i].bees}, isBeePresent: ${state[i].isBeePresent}");
+      print("isAntPresent: ${state[i].isAntPresent}, antImagePath: ${state[i].antImagePath}, ant: ${state[i].ant} , Bees: ${state[i].bees}, isBeePresent: ${state[i].isBeePresent}");
     }
   }
 
@@ -173,17 +221,19 @@ class TilesNotifier extends StateNotifier<List<Tile>> {
     for (int i = 0; i < state.length; i++) {
       if (state[i].isAntPresent==true && state[i].isBeePresent == true )
       {
+        print("Ant reduceHealth ${state[i].ant}");
+        state[i].ant!.reduceAntHealth();
 
-        state[i].antImagePath= null;
+        if(state[i].ant!.health<=0) {
+          state[i].antImagePath = null;
+          state[i].ant = null;
+        }
       }
-      else
-        state[i];
+      else{
+        print("isAntPresent ${state[i].isAntPresent} isBeePresent ${state[i].isBeePresent} tileKey ${state[i].tileKey} Bees: ${state[i].bees}");
+      }
+      state = [...state];
     }
-
-    state = [...state];
-  }
-  void gameCompleted()
-  {
 
   }
 

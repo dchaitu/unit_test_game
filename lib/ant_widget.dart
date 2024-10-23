@@ -1,34 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'constants/image_assets.dart';
-import 'main.dart';
+import 'ant.dart';
 
 class AntWidget extends ConsumerWidget {
-  final String antImagePath;
-  final int damage;
+  final Ant ant;
   final VoidCallback onThrow;
-  // final VoidCallback onDeath;
-  final int health;
-  final int lower;
-  final int upper;
 
-
-
-  // void attack(List<BeeWidget> bees) {
-  //   bees.removeWhere((bee) {
-  //     bee.health -= damage;
-  //     return bee.health <= 0;
-  //   });
-  // }
-
-
-  const AntWidget({super.key,
-    this.antImagePath= ImageAssets.antThrower,
-    this.damage = 1,
-    this.health = 2,
-    this.lower= 0,
-    this.upper=99,
+  const AntWidget({
+    super.key,
+    required this.ant,
     required this.onThrow,
 
     // required this.onDeath
@@ -39,7 +19,7 @@ class AntWidget extends ConsumerWidget {
     return GestureDetector(
       onTap: onThrow,
       child: Image.asset(
-        antImagePath,
+        ant.antImagePath,
         width: 45,
         height: 45,
       ),

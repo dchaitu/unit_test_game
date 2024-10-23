@@ -1,15 +1,16 @@
-import 'package:unit_test_game/ant_widget.dart';
-import 'package:unit_test_game/bee_widget.dart';
+import 'ant.dart';
+import 'bee.dart';
 
 
 class Tile {
   String? tileKey;
   bool get isAntPresent => antImagePath != null;
   String? antImagePath;
+  Ant? ant;
   final String groundTileImgUrl;
   final String skyTileImgUrl;
-  int noOfBees;
-  List<BeeWidget>? get bees => Tile.createAndGetBees(noOfBees);
+  int get noOfBees => bees!.length;
+  List<Bee>? bees;
   Tile? nextTile;
   bool get isBeePresent=> bees?.isNotEmpty== true;
 
@@ -17,10 +18,11 @@ class Tile {
   Tile({
     this.tileKey,
     this.antImagePath,
+    this.ant,
     required this.groundTileImgUrl,
     required this.skyTileImgUrl,
-    required this.noOfBees,
     this.nextTile,
+    this.bees
   });
   @override
   String toString() {
@@ -30,13 +32,13 @@ class Tile {
   Tile copyWith({
     String? tileKey,
     bool? isAntPresent,
-    AntWidget? ant,
+    Ant? ant,
     String? antImagePath,
     bool? isBeePresent,
     String? groundTileImgUrl,
     String? skyTileImgUrl,
     int? noOfBees,
-    List<BeeWidget>? bees,
+    List<Bee>? bees,
     Tile? nextTile,})
   {
     return Tile(
@@ -44,75 +46,33 @@ class Tile {
         antImagePath:antImagePath ?? this.antImagePath,
         groundTileImgUrl: groundTileImgUrl ?? this.groundTileImgUrl,
         skyTileImgUrl: skyTileImgUrl ?? this.skyTileImgUrl,
-        noOfBees: noOfBees?? this.noOfBees,
-        nextTile: nextTile?? this.nextTile
+        bees: bees?? this.bees,
+        nextTile: nextTile?? this.nextTile,
+        ant: ant ?? this.ant
     );
 
   }
 
-    static List<BeeWidget>? createAndGetBees(int noOfBees)
+  static List<Bee>? createAndGetBees(int noOfBees)
   {
-    List<BeeWidget> bees = [];
+    List<Bee> bees = [];
     for(int i=0;i<noOfBees;i++)
       {
-        bees.add(
-            BeeWidget(
-              onMove: () { print("Bee moving"); },
-              onSting: () {
-              print("Bee sting in tile");
-            },)
-        );
+        bees.add(Bee());
       }
     return bees;
   }
 
+  Tile? getTileFromTileKey(String tileKey)
+  {
+    if(this.tileKey == tileKey)
+        return this;
+    return null;
+  }
 
 
-  // void moveBeeForward() {
-  //   print("tile moveBeeForward $nextTile");
-  //   if (nextTile != null) {
-  //     nextTile!.bees!.addAll(bees!);  // Move bees to the next tile
-  //     // nextTile!.isBeePresent = true;
-  //     bees!.clear();  // Clear bees from current tile
-  //     // bees = [];
-  //     // isBeePresent = false;
-  //     print("Removing Bees from ${nextTile?.tileKey}");
-  //
-  //   }
-  //   else{
-  //     print("Ending Cell");
-  //   }
-  // }
 
 
-  // void beeStingsAnt() {
-  //   if (isBeePresent && isAntPresent && ant != null) {
-  //     for (BeeWidget bee in bees) {
-  //       // bee.sting(ant!);
-  //       print("Bee stung the ant on tile $tileKey, ant health: ${ant!.health}");
-  //     }
-  //     if (ant!.health <= 0) {
-  //       removeAnt();
-  //     }
-  //   }
-  // }
-
-  // Ant attacks bees
-  // void antAttacksBees() {
-  //   if (isAntPresent && isBeePresent) {
-  //     ant?.attack(bees);
-  //     print("Ant attacked bees on tile $tileKey, number of bees left: ${bees.length}");
-  //     if (bees.isEmpty) {
-  //       isBeePresent = false;
-  //     }
-  //   }
-  // }
-
-  // void removeAnt() {
-  //   isAntPresent = false;
-  //   ant = null;
-  //   antImage = null;
-  // }
 
 
 
