@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'ant.dart';
 import 'ant_widget.dart';
 import 'bee_widget.dart';
-import 'providers.dart';
 import 'tile.dart';
 
 class TileWidget extends ConsumerWidget {
@@ -21,9 +20,8 @@ class TileWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    // print("Tile Ants:- ${tile.antImagePath} ${tile.isAntPresent} ${tile.noOfBees}");
 
-    print("NO of bees ${tile.bees!.length}");
+    // print("NO of bees ${tile.bees!.length}");
     List<Widget> generateBees = List.generate(tile.bees!.length, (index) {
       return Positioned(
         top: 10,
@@ -37,7 +35,7 @@ class TileWidget extends ConsumerWidget {
     return GestureDetector(
       onTap: ()
       {
-        print(ref.read(tilesProvider.notifier).nearestBee(tile));
+        // print(ref.read(gameStateProvider.notifier).nearestBee(tile));
 
       },
       child: Column(

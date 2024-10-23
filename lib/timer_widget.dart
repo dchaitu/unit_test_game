@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:unit_test_game/providers.dart';
+import 'game_state_provider.dart';
 
 class TimerPage extends ConsumerWidget {
   const TimerPage({super.key});
@@ -8,14 +8,14 @@ class TimerPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var countDownTimer = ref.watch(timerStateProvider);
-    ref.read(timerStateProvider.notifier).runCountdown();
+    var countDownTimer = ref.watch(gameStateProvider).countDown;
+    ref.read(gameStateProvider.notifier).runCountdown();
 
     print("Count DownTimer ${countDownTimer}");
 
     if(countDownTimer==0)
       {
-        ref.read(gameCompletedProvider.notifier).timesUpGameState();
+        ref.read(gameStateProvider.notifier).timesUpGameState();
       }
 
     return Center(
