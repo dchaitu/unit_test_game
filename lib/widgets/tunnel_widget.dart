@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:unit_test_game/tile_widget.dart';
-import 'tile.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:unit_test_game/widgets/tile_widget.dart';
+import '../models/tile.dart';
 
-class TunnelWidget extends StatelessWidget {
+class TunnelWidget extends ConsumerWidget {
   final List<Tile> tiles;
 
   const TunnelWidget({super.key, required this.tiles});
@@ -11,7 +12,6 @@ class TunnelWidget extends StatelessWidget {
 
   List<Widget> generateTunnel(List<Tile> tiles)
   {
-    // print("generateTunnel");
     List<TileWidget> tileWidgets = [];
 
     for (int i = 0; i < tiles.length - 1; i++) {
@@ -27,7 +27,7 @@ class TunnelWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: generateTunnel(tiles),
     );

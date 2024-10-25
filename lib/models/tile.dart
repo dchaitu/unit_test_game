@@ -1,12 +1,16 @@
+import 'package:unit_test_game/models/thrower_ant.dart';
+
 import 'ant.dart';
 import 'bee.dart';
+import '../constants/get_ants.dart';
+import '../constants/image_assets.dart';
 
 
 class Tile {
   String? tileKey;
   bool get isAntPresent => antImagePath != null;
   String? antImagePath;
-  Ant? ant;
+  Ant? get ant => getAntFromImage(antImagePath!);
   final String groundTileImgUrl;
   final String skyTileImgUrl;
   int get noOfBees => bees!.length;
@@ -18,7 +22,7 @@ class Tile {
   Tile({
     this.tileKey,
     this.antImagePath,
-    this.ant,
+    // this.ant,
     required this.groundTileImgUrl,
     required this.skyTileImgUrl,
     this.nextTile,
@@ -48,7 +52,7 @@ class Tile {
         skyTileImgUrl: skyTileImgUrl ?? this.skyTileImgUrl,
         bees: bees?? this.bees,
         nextTile: nextTile?? this.nextTile,
-        ant: ant ?? this.ant
+        // ant: ant ?? this.ant
     );
 
   }
@@ -69,11 +73,6 @@ class Tile {
         return this;
     return null;
   }
-
-
-
-
-
 
 
 }

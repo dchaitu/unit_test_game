@@ -2,10 +2,9 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'constants/image_assets.dart';
-import 'tile.dart';
-import 'ant.dart';
-import 'bee.dart';
+import 'package:unit_test_game/providers/providers.dart';
+import '../models/tile.dart';
+import '../models/bee.dart';
 
 class GameStatus {
   bool beesWon;
@@ -38,21 +37,32 @@ class GameState{
   List<Tile> tiles;
   GameStatus gameStatus;
   int countDown;
+  int foodAvailable;
+  String? selectedAntUrl;
+  int beesInHive;
 
-  GameState({required this.tiles, required this.gameStatus, required this.countDown});
+
+
+  GameState({required this.tiles, required this.gameStatus, required this.countDown, required this.foodAvailable,this.selectedAntUrl, required this.beesInHive});
 
 
   GameState copyWith({
     List<Tile>? tiles,
     GameStatus? gameStatus,
     int? countDown,
+    String? selectedAntUrl,
+    int? foodAvailable,
+    int? beesInHive
 
   })
   {
     return GameState(
         tiles: tiles ?? this.tiles,
         gameStatus: gameStatus?? this.gameStatus,
-        countDown: countDown ?? this.countDown
+        countDown: countDown ?? this.countDown,
+        selectedAntUrl:selectedAntUrl ?? this.selectedAntUrl,
+        foodAvailable:foodAvailable ?? this.foodAvailable,
+        beesInHive:beesInHive ?? this.beesInHive
     );
   }
 
@@ -62,55 +72,15 @@ class GameState{
 
 final gameStateProvider = StateNotifierProvider<GameStateNotifier, GameState>((ref)
 {
-return GameStateNotifier(
-  gameState: GameState(
-      tiles:[
-    Tile(
-      tileKey: "tileKey_1",
-      antImagePath: ImageAssets.antThrower,
-      groundTileImgUrl: ImageAssets.groundTile1,
-      skyTileImgUrl: ImageAssets.sky1,
-      bees: [],
-      ant: Ant(),
-    ),
-    Tile(
-      tileKey: "tileKey_2",
-      antImagePath: ImageAssets.antThrower,
-      groundTileImgUrl: ImageAssets.groundTile1,
-      skyTileImgUrl: ImageAssets.sky1,
-      bees: [],
-      ant: Ant(),
-
-    ),
-    Tile(
-      tileKey: "tileKey_3",
-      antImagePath: ImageAssets.antThrower,
-      groundTileImgUrl: ImageAssets.groundTile1,
-      skyTileImgUrl: ImageAssets.sky1,
-      bees: [Bee()],
-      ant: Ant(),
-
-    ),
-    Tile(
-      tileKey: "tileKey_4",
-      antImagePath: null,
-      groundTileImgUrl: ImageAssets.groundTile1,
-      skyTileImgUrl: ImageAssets.sky1,
-      bees: [Bee(),Bee(),Bee(),Bee()],
-      ant: null,
-    ),
-    Tile(
-      tileKey: "tileKey_5",
-      antImagePath: null,
-      groundTileImgUrl: ImageAssets.groundTile1,
-      skyTileImgUrl: ImageAssets.sky1,
-      bees: [Bee(), Bee(),Bee(),Bee(),Bee()],
-      ant: null,
-    )
-
-
-  ], gameStatus:GameStatus(), countDown:15)
-);
+  return GameStateNotifier(
+      gameState: GameState(
+          tiles: ref.watch(tilesProvider),
+          gameStatus: GameStatus(),
+          countDown: 30,
+          foodAvailable:50,
+          beesInHive:10
+      )
+  );
 
 });
 
@@ -136,26 +106,90 @@ class GameStateNotifier extends StateNotifier<GameState> {
   void antsWonGameState() => state = state.copyWith(gameStatus: state.gameStatus.copyWith(antsWon: true, ));
   void timesUpGameState() => state = state.copyWith(gameStatus: state.gameStatus.copyWith(timeCompleted: true));
 
+  Map<int, List<Tile>> groupTilesByTunnel(List<Tile> tiles) {
+    Map<int, List<Tile>> tunnels = {};
+
+    for (Tile tile in tiles) {
+      int row = int.parse(tile.tileKey!.split('_')[1]);
+
+      if (!tunnels.containsKey(row)) {
+        tunnels[row] = [];
+      }
+      tunnels[row]!.add(tile);
+    }
+
+    return tunnels;
+  }
 
   void moveBeeForward()
   {
     print("Bees moving forward");
-    var gameTiles = state.tiles;
+    var tunnels = groupTilesByTunnel(state.tiles);
+    for (var tiles in tunnels.values) {
+        moveForwardEachTunnel(tiles);
+    }
+
+  }
+
+  moveForwardEachTunnel(List<Tile> gameTiles)
+  {
+    List<Tile> updatedTiles = state.tiles;
+
     for (int i = gameTiles.length - 1; i > 0; i--)
     {
-      Future.delayed(Duration(seconds: (gameTiles.length - i)*2), () {
+      Future.delayed(Duration(seconds: (gameTiles.length - i)*3), () {
 
         if(gameTiles[i].isBeePresent) {
           Bee bee = gameTiles[i].bees!.last;
           gameTiles[i].bees!.remove(bee);
           gameTiles[i-1].bees!.add(bee);
-          state = state.copyWith(tiles: gameTiles);
+          updatedTiles.map((tile) {
+            if(tile.tileKey== gameTiles[i].tileKey)
+              return gameTiles[i];
+            else if(tile.tileKey  == gameTiles[i-1].tileKey)
+              return gameTiles[i-1];
+            return tile;
+          }).toList();
+
+          state = state.copyWith(tiles: updatedTiles);
+          
         }
       });
 
 
     }
+  }
+  // void removeBeeFromHive(int beeCount)
+  // {
+  //   print("BeeCount:- $beeCount");
+  //   if(state!=0) {
+  //     state = state-beeCount;
+  //   }
+  //
+  // }
 
+  void addBeeToEnd(List<Tile> gameTiles)
+  {
+    List<Tile> updatedTiles = state.tiles;
+    // Updating tiles old status
+    if(state.beesInHive>0) {
+      for (Tile tile in gameTiles) {
+        tile.bees!.add(Bee());
+      }
+
+      print("add Bee endTiles :- $gameTiles");
+
+      // Updating state
+      for (Tile tile in gameTiles) {
+        updatedTiles.map((oldTile) {
+          if (oldTile.tileKey == tile.tileKey) return tile;
+        }).toList();
+      }
+      print("oldTiles:- $updatedTiles");
+
+      state = state.copyWith(
+          tiles: updatedTiles, beesInHive: state.beesInHive - gameTiles.length);
+    }
   }
 
   void showTileDetails()
@@ -179,7 +213,6 @@ class GameStateNotifier extends StateNotifier<GameState> {
 
         if(gameTiles[i].ant!.health<=0) {
           gameTiles[i].antImagePath = null;
-          gameTiles[i].ant = null;
         }
       }
       else{
@@ -208,6 +241,8 @@ class GameStateNotifier extends StateNotifier<GameState> {
         print("currDis:- ${currDis}");
         tile = tile.nextTile!;
       }
+      else if(tile.nextTile==null)
+        return null;
     }
     return null;
 
@@ -240,6 +275,44 @@ class GameStateNotifier extends StateNotifier<GameState> {
 
 
   }
+  void selectAnt(String imagePath)
+  {
+    print("Selected Ant:- $imagePath");
+    state = state.copyWith(selectedAntUrl: imagePath);
+  }
+
+  void addImgToTile(Tile addAntToTile)
+  {
+    var gameTiles = state.tiles;
+    print("addAntToTile:- $addAntToTile");
+    var imgPath = state.selectedAntUrl;
+    for(int i=0; i< gameTiles.length;i++)
+      {
+        print("tile img ${gameTiles[i].antImagePath}");
+        if(gameTiles[i].tileKey == addAntToTile.tileKey &&gameTiles[i].isAntPresent==false && state.foodAvailable>0)
+        {
+
+          gameTiles[i] = gameTiles[i].copyWith(antImagePath: imgPath);
+          print("Ant food:- ${gameTiles[i].ant!.food}");
+          var currFoodAvailable = state.foodAvailable- gameTiles[i].ant!.food;
+          if(currFoodAvailable>0) {
+          state = state.copyWith(foodAvailable: currFoodAvailable);
+          print("Img added ${gameTiles[i].antImagePath}");
+        }
+          else{
+            print("Insufficient food");
+          }
+      }
+      }
+
+    // gameTiles.map((tile) {
+    //
+    // });
+    state = state.copyWith(tiles: gameTiles);
+
+  }
+
+
 
 
 
