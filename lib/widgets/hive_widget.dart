@@ -11,9 +11,12 @@ class HiveWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     int numBees = ref.watch(gameStateProvider).beesInHive;
-    return GridView.count(
-      crossAxisCount: 5,
-      children: generateBees(numBees),
+    return SizedBox(
+      width:500 ,
+      child: GridView.count(
+        crossAxisCount: 5,
+        children: generateBees(numBees),
+      ),
     );
   }
 }

@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:unit_test_game/models/tile.dart';
 
 import '../providers/game_state_provider.dart';
+
+
+bool isBeesPresentInTheTunnels(WidgetRef ref)
+{
+  var tiles = ref.read(gameStateProvider).tiles;
+  for(Tile tile in tiles)
+    {
+      if(tile.isBeePresent) {
+        return false;
+      }
+    }
+
+  return true;
+}
 
 Widget gameStatusWidget(WidgetRef ref) {
   var gameStatus = ref.read(gameStateProvider).gameStatus;
@@ -23,7 +38,7 @@ Widget gameStatusWidget(WidgetRef ref) {
           )),
     );
   } else if (ref.read(gameStateProvider).gameStatus.antsWon &&
-      ref.watch(gameStateProvider).beesInHive <= 0) {
+      ref.watch(gameStateProvider).beesInHive <= 0 &&isBeesPresentInTheTunnels(ref)) {
     return Container(
       padding: const EdgeInsets.all(10),
       height: 200,
@@ -35,19 +50,6 @@ Widget gameStatusWidget(WidgetRef ref) {
             style: TextStyle(color: Colors.white, fontSize: 24),
           )),
     );
-  } else if (ref.read(gameStateProvider).gameStatus.timeCompleted) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      height: 200,
-      width: 200,
-      color: Colors.blue,
-      child: const Center(
-          child: Text(
-            "Times Up",
-            style: TextStyle(color: Colors.white, fontSize: 24),
-          )),
-    );
   }
-
   return const SizedBox();
 }

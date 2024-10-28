@@ -1,9 +1,5 @@
-
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/bee.dart';
-import '../widgets/bee_widget.dart';
 import '../constants/image_assets.dart';
 import 'game_state_provider.dart';
 import '../models/tile.dart';
@@ -15,7 +11,6 @@ List<Tile> allTiles = [
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
-    // ant: null,
   ),
   Tile(
     tileKey: "tileKey_0_1",
@@ -23,7 +18,6 @@ List<Tile> allTiles = [
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
-    // ant: LongThrowerAnt(),
   ),
   Tile(
     tileKey: "tileKey_0_2",
@@ -38,7 +32,6 @@ List<Tile> allTiles = [
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
-    // ant: Ant(),
   ),
   Tile(
     tileKey: "tileKey_0_4",
@@ -46,7 +39,6 @@ List<Tile> allTiles = [
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
-    // ant: null,
   ),
   Tile(
     tileKey: "tileKey_1_0",
@@ -54,7 +46,6 @@ List<Tile> allTiles = [
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
-    // ant: null,
   ),
   Tile(
     tileKey: "tileKey_1_1",
@@ -62,7 +53,6 @@ List<Tile> allTiles = [
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
-    // ant: null,
   ),
   Tile(
     tileKey: "tileKey_1_2",
@@ -70,7 +60,6 @@ List<Tile> allTiles = [
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
-    // ant: null,
   ),
   Tile(
     tileKey: "tileKey_1_3",
@@ -78,7 +67,6 @@ List<Tile> allTiles = [
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
-    // ant: null,
   ),
   Tile(
     tileKey: "tileKey_1_4",
@@ -86,7 +74,6 @@ List<Tile> allTiles = [
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
-    // ant: null,
   )
 ];
 
@@ -103,10 +90,6 @@ final tilesExitProvider = Provider<List<Tile>>((ref) {
 
 final tilesWithAntsProvider = Provider((ref) {
   return allTiles.where((tile) => tile.isAntPresent==true).toList();
-});
-
-final mapTiles = Provider((ref) {
-
 });
 
 

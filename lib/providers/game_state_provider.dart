@@ -68,6 +68,33 @@ class GameState{
 
 
 }
+// final timerProvider = StateNotifierProvider<TimeNotifier,int>((ref)
+// {
+//   return TimeNotifier();
+//
+// });
+//
+// class TimeNotifier extends StateNotifier<int> {
+// TimeNotifier({timer}): super(timer);
+//   Timer? _timer;
+//   void runCountdown() {
+//   if (_timer != null && _timer!.isActive) return;
+//
+//   _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+//   if(state==30) {
+//     print("Timer stopped");
+//     _timer?.cancel();
+//   }
+//   else {
+//
+//       state = state+1;
+//     }
+//
+//   });
+//   }
+//
+//
+// }
 
 
 final gameStateProvider = StateNotifierProvider<GameStateNotifier, GameState>((ref)
@@ -76,7 +103,7 @@ final gameStateProvider = StateNotifierProvider<GameStateNotifier, GameState>((r
       gameState: GameState(
           tiles: ref.watch(tilesProvider),
           gameStatus: GameStatus(),
-          countDown: 30,
+          countDown: 0,
           foodAvailable:50,
           beesInHive:10
       )
@@ -92,19 +119,22 @@ class GameStateNotifier extends StateNotifier<GameState> {
     if (_timer != null && _timer!.isActive) return;
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if(state.countDown>0) {
-        state = state.copyWith(countDown: state.countDown-1);
+      print("state.gameStatus.gameCompleted: ${state.gameStatus.gameCompleted}");
+      if(!state.gameStatus.gameCompleted) {
+        state = state.copyWith(countDown: state.countDown+1);
+        print("Countdown updated ${state.countDown}");
       }
       else {
         print("Timer stopped");
         _timer?.cancel();
+        _timer = null;
       }
     });
   }
 
   void beesWonGameState() => state = state.copyWith(gameStatus: state.gameStatus.copyWith(beesWon: true, ));
   void antsWonGameState() => state = state.copyWith(gameStatus: state.gameStatus.copyWith(antsWon: true, ));
-  void timesUpGameState() => state = state.copyWith(gameStatus: state.gameStatus.copyWith(timeCompleted: true));
+  // void timesUpGameState() => state = state.copyWith(gameStatus: state.gameStatus.copyWith(timeCompleted: true));
 
   Map<int, List<Tile>> groupTilesByTunnel(List<Tile> tiles) {
     Map<int, List<Tile>> tunnels = {};
@@ -159,19 +189,13 @@ class GameStateNotifier extends StateNotifier<GameState> {
 
     }
   }
-  // void removeBeeFromHive(int beeCount)
-  // {
-  //   print("BeeCount:- $beeCount");
-  //   if(state!=0) {
-  //     state = state-beeCount;
-  //   }
-  //
-  // }
+
 
   void addBeeToEnd(List<Tile> gameTiles)
   {
     List<Tile> updatedTiles = state.tiles;
     // Updating tiles old status
+
     if(state.beesInHive>0) {
       for (Tile tile in gameTiles) {
         tile.bees!.add(Bee());
@@ -182,13 +206,14 @@ class GameStateNotifier extends StateNotifier<GameState> {
       // Updating state
       for (Tile tile in gameTiles) {
         updatedTiles.map((oldTile) {
-          if (oldTile.tileKey == tile.tileKey) return tile;
+          (oldTile.tileKey == tile.tileKey) ? tile: oldTile;
         }).toList();
       }
       print("oldTiles:- $updatedTiles");
-
+      var currBees = state.beesInHive - gameTiles.length;
+      print("currBees $currBees");
       state = state.copyWith(
-          tiles: updatedTiles, beesInHive: state.beesInHive - gameTiles.length);
+          tiles: updatedTiles, beesInHive: currBees);
     }
   }
 
@@ -198,7 +223,7 @@ class GameStateNotifier extends StateNotifier<GameState> {
 
     for(int i=0;i<gameTiles.length;i++)
     {
-      print("isAntPresent: ${gameTiles[i].isAntPresent}, antImagePath: ${gameTiles[i].antImagePath}, ant: ${gameTiles[i].ant} , Bees: ${gameTiles[i].bees}, isBeePresent: ${gameTiles[i].isBeePresent}");
+      print("isAntPresent: ${gameTiles[i].isAntPresent}, antImagePath: ${gameTiles[i].antImagePath}, Bees: ${gameTiles[i].noOfBees}, isBeePresent: ${gameTiles[i].isBeePresent}");
     }
   }
 
@@ -223,31 +248,26 @@ class GameStateNotifier extends StateNotifier<GameState> {
 
   }
 
-  Tile? nearestBee(Tile tile)
-  {
+  Tile? nearestBee(Tile tile) {
     int currDis = 0;
     int lowerBound = tile.ant!.lower;
     int upperBound = tile.ant!.upper;
+    Tile? currentTile = tile;
 
-    while(lowerBound<=currDis && currDis<=upperBound)
-    {
-      print("curr tile ${tile.tileKey}");
-      if(tile.isBeePresent) {
-        return tile;
+    while (currentTile != null && (lowerBound <= currDis && currDis <= upperBound)) {
+      if (currentTile.isBeePresent) {
+        return currentTile;
       }
-      else if(tile.nextTile !=null)
-      {
+      if (currentTile.nextTile != null) {
+        currentTile = currentTile.nextTile;
         currDis++;
-        print("currDis:- ${currDis}");
-        tile = tile.nextTile!;
+      } else {
+        break;
       }
-      else if(tile.nextTile==null)
-        return null;
     }
     return null;
-
-
   }
+
 
 
 
@@ -266,9 +286,15 @@ class GameStateNotifier extends StateNotifier<GameState> {
         } else {
           currTile.bees!.last = bee;
         }
+        gameTiles = gameTiles.map((t) {
+          if (t.tileKey == currTile.tileKey) {
+            return currTile;
+          }
+          return t;
+        }).toList();
 
         print("Bee health: ${bee.health}");
-        currTile.copyWith(bees: currTile.bees);
+        // currTile.copyWith(bees: currTile.bees);
         state = state.copyWith(tiles: gameTiles);
 
     }
@@ -288,7 +314,7 @@ class GameStateNotifier extends StateNotifier<GameState> {
     var imgPath = state.selectedAntUrl;
     for(int i=0; i< gameTiles.length;i++)
       {
-        print("tile img ${gameTiles[i].antImagePath}");
+        print("tile ${gameTiles[i].tileKey} img ${gameTiles[i].antImagePath}");
         if(gameTiles[i].tileKey == addAntToTile.tileKey &&gameTiles[i].isAntPresent==false && state.foodAvailable>0)
         {
 
@@ -305,9 +331,6 @@ class GameStateNotifier extends StateNotifier<GameState> {
       }
       }
 
-    // gameTiles.map((tile) {
-    //
-    // });
     state = state.copyWith(tiles: gameTiles);
 
   }
