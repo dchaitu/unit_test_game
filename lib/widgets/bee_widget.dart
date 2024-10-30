@@ -9,10 +9,15 @@ class BeeWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Image.asset(
-      bee.imagePath,
-      width: 50,
-      height: 50,
+    return Column(
+      children: [
+        Text(bee.currHealth.toString()),
+        Image.asset(
+          bee.imagePath,
+          width: 50,
+          height: 50,
+        ),
+      ],
     );
   }
 

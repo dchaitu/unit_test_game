@@ -70,7 +70,7 @@ class TileWidget extends ConsumerWidget {
               ? FittedBox(
                   fit: BoxFit.scaleDown,
                   child: AntWidget(
-                      antImagePath: tile.antImagePath!,
+                      ant: tile.ant!,
                   ),
                 )
               : const SizedBox(),

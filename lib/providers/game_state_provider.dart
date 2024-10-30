@@ -2,6 +2,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:unit_test_game/constants/get_ants.dart';
+import 'package:unit_test_game/models/ant.dart';
 import 'package:unit_test_game/providers/providers.dart';
 import '../models/tile.dart';
 import '../models/bee.dart';
@@ -169,7 +171,7 @@ class GameStateNotifier extends StateNotifier<GameState> {
     {
       Future.delayed(Duration(seconds: (gameTiles.length - i)*3), () {
 
-        if(gameTiles[i].isBeePresent) {
+        if(gameTiles[i].isBeePresent && !gameTiles[i].isAntPresent) {
           Bee bee = gameTiles[i].bees!.last;
           gameTiles[i].bees!.remove(bee);
           gameTiles[i-1].bees!.add(bee);
@@ -184,6 +186,7 @@ class GameStateNotifier extends StateNotifier<GameState> {
           state = state.copyWith(tiles: updatedTiles);
           
         }
+
       });
 
 
@@ -227,6 +230,16 @@ class GameStateNotifier extends StateNotifier<GameState> {
     }
   }
 
+  Ant reduceHealth(Ant ant)
+  {
+    return ant.copyWith(currHealth: ant.currHealth-1);
+  }
+
+  Bee reduceBeeHealth(Bee bee)
+  {
+    return bee.copyWith(currHealth: bee.currHealth-1);
+  }
+
   void beeStingAnt() {
     print("Bee sting Ant...");
     var gameTiles = state.tiles;
@@ -234,10 +247,14 @@ class GameStateNotifier extends StateNotifier<GameState> {
       if (gameTiles[i].isAntPresent==true && gameTiles[i].isBeePresent == true )
       {
         print("Ant reduceHealth ${gameTiles[i].ant}");
-        gameTiles[i].ant!.reduceAntHealth();
+        Ant newAnt = this.reduceHealth(gameTiles[i].ant!);
+        print("newAnt:- ${newAnt.currHealth}");
 
-        if(gameTiles[i].ant!.health<=0) {
+        gameTiles[i].ant = newAnt;
+        if(gameTiles[i].ant!.currHealth<=0) {
           gameTiles[i].antImagePath = null;
+          gameTiles[i].ant = null;
+          print("Ant end");
         }
       }
       else{
@@ -258,10 +275,11 @@ class GameStateNotifier extends StateNotifier<GameState> {
       if (currentTile.isBeePresent) {
         return currentTile;
       }
-      if (currentTile.nextTile != null) {
+      else if (currentTile.nextTile != null) {
         currentTile = currentTile.nextTile;
         currDis++;
-      } else {
+      }
+      else {
         break;
       }
     }
@@ -275,12 +293,13 @@ class GameStateNotifier extends StateNotifier<GameState> {
   {
     var gameTiles = state.tiles;
     Tile? currTile = nearestBee(tile);
-
+    print("currTile key ${currTile!.tileKey}");
     print("Ant attacking... tiles= ${gameTiles.length}");
     if (currTile!=null && currTile.tileKey==tile.tileKey) {
         Bee bee = currTile.bees!.last;
-        bee.reduceBeeHealth();
-        if(bee.health<=0) {
+        // bee.reduceBeeHealth();
+        bee = reduceBeeHealth(bee);
+        if(bee.currHealth<=0) {
           print("Removing bee");
           currTile.bees!.remove(bee);
         } else {
@@ -293,10 +312,13 @@ class GameStateNotifier extends StateNotifier<GameState> {
           return t;
         }).toList();
 
-        print("Bee health: ${bee.health}");
+        print("Bee health: ${bee.currHealth}");
         // currTile.copyWith(bees: currTile.bees);
         state = state.copyWith(tiles: gameTiles);
 
+    }
+    else{
+      print("Bee not present in tile ${tile.tileKey}");
     }
 
 
@@ -317,8 +339,7 @@ class GameStateNotifier extends StateNotifier<GameState> {
         print("tile ${gameTiles[i].tileKey} img ${gameTiles[i].antImagePath}");
         if(gameTiles[i].tileKey == addAntToTile.tileKey &&gameTiles[i].isAntPresent==false && state.foodAvailable>0)
         {
-
-          gameTiles[i] = gameTiles[i].copyWith(antImagePath: imgPath);
+          gameTiles[i] = gameTiles[i].copyWith(antImagePath: imgPath,ant: getAntFromImage(imgPath!));
           print("Ant food:- ${gameTiles[i].ant!.food}");
           var currFoodAvailable = state.foodAvailable- gameTiles[i].ant!.food;
           if(currFoodAvailable>0) {

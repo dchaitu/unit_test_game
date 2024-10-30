@@ -4,7 +4,8 @@ import '../constants/image_assets.dart';
 class Ant {
   final String antImagePath;
   final int damage;
-  int health;
+  final int currHealth;
+  final int maxHealth;
   final int lower;
   final int upper;
   final int food;
@@ -15,28 +16,25 @@ class Ant {
   Ant({
     this.antImagePath= ImageAssets.antThrower,
     this.damage = 1,
-    this.health = 2,
+    this.maxHealth = 2,
+    this.currHealth=2,
     this.lower= 0,
     this.upper=99,
     this.food=3,
     this.name="Thrower"
   });
 
-  Ant copyWith({String? antImagePath, int? lower, int? upper, int? health, int? damage, int? food}) {
+  Ant copyWith({String? antImagePath, int? lower, int? upper, int? maxHealth, int? damage, int? food, int? currHealth}) {
     return Ant(
       antImagePath: antImagePath ?? this.antImagePath,
       lower: lower ?? this.lower,
       upper: upper ?? this.upper,
-      health: health ?? this.health,
+      currHealth: currHealth ?? this.currHealth,
       damage: damage ?? this.damage,
-      food: food?? this.food
+      food: food?? this.food,
+      maxHealth:maxHealth ?? this.maxHealth
     );
   }
 
-  void reduceAntHealth()
-  {
-    print("Ant Health $health");
-    health -=1;
-  }
 
 }

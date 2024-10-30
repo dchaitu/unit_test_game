@@ -1,16 +1,13 @@
-import 'package:unit_test_game/models/thrower_ant.dart';
-
 import 'ant.dart';
 import 'bee.dart';
 import '../constants/get_ants.dart';
-import '../constants/image_assets.dart';
 
 
 class Tile {
   String? tileKey;
-  bool get isAntPresent => antImagePath != null;
+  bool get isAntPresent => ant != null;
   String? antImagePath;
-  Ant? get ant => getAntFromImage(antImagePath!);
+  Ant? ant;
   final String groundTileImgUrl;
   final String skyTileImgUrl;
   int get noOfBees => bees!.length;
@@ -22,15 +19,40 @@ class Tile {
   Tile({
     this.tileKey,
     this.antImagePath,
-    // this.ant,
+    this.ant,
     required this.groundTileImgUrl,
     required this.skyTileImgUrl,
     this.nextTile,
     this.bees
   });
+
+  factory Tile.fromImgPath({
+    String? tileKey,
+    String? antImagePath,
+    required String groundTileImgUrl,
+    required String skyTileImgUrl,
+    Tile? nextTile,
+    List<Bee>? bees
+  })
+  {
+    Ant? antObj = antImagePath != null ? getAntFromImage(antImagePath) : null;
+
+
+    return Tile(
+      tileKey: tileKey,
+      antImagePath: antImagePath,
+      ant: antObj,
+      groundTileImgUrl: groundTileImgUrl,
+      skyTileImgUrl: skyTileImgUrl,
+      nextTile: nextTile,
+      bees: bees
+    );
+  }
+
+
   @override
   String toString() {
-    return 'Tile(tileKey: $tileKey, isAntPresent: $isAntPresent, isBeePresent: $isBeePresent, noOfBees: $noOfBees, nextTile: ${nextTile?.tileKey}';
+    return 'Tile(tileKey: $tileKey, isAntPresent: $isAntPresent, isBeePresent: $isBeePresent, noOfBees: $noOfBees, nextTile: ${nextTile?.tileKey})';
   }
 
   Tile copyWith({
@@ -52,7 +74,7 @@ class Tile {
         skyTileImgUrl: skyTileImgUrl ?? this.skyTileImgUrl,
         bees: bees?? this.bees,
         nextTile: nextTile?? this.nextTile,
-        // ant: ant ?? this.ant
+        ant: ant ?? this.ant
     );
 
   }

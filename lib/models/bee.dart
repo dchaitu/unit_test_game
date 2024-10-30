@@ -2,23 +2,35 @@
 import '../constants/image_assets.dart';
 import 'insect.dart';
 
-class Bee extends Insect{
-  Bee() :super(
-    imagePath: ImageAssets.bee,
-    health: 2,
-    damage: 1,
-  );
+class Bee{
+
+  final String imagePath;
+  final int damage;
+  final int currHealth;
+  final int maxHealth;
+
+  Bee({
+    this.imagePath=ImageAssets.bee,
+    this.damage = 1,
+    this.maxHealth = 2,
+    this.currHealth=2,
+  });
 
 
 
-  @override
-  Bee copyWith({String? imagePath, int? health, int? damage, int? food}) {
-    return Bee()..health= health ?? this.health;
+  Bee copyWith({String? imagePath, int? currHealth, int? damage, int? maxHealth}) {
+    return Bee(
+        currHealth: currHealth ?? this.currHealth,
+        maxHealth: maxHealth ?? this.maxHealth,
+        damage:damage ?? this.damage,
+        imagePath:imagePath??this.imagePath
+    );
   }
 
-  void reduceBeeHealth()
-  {
-    super.reduceHealth();
-  }
+  // void reduceBeeHealth()
+  // {
+  //   print("Bee health reduced");
+  //   // super.reduceHealth();
+  // }
 
 }

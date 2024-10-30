@@ -34,7 +34,7 @@ class OptionsAvailableWidget extends ConsumerWidget {
             Navigator.pop(context);
           },
           child: Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.yellowAccent),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.orange),
             padding: const EdgeInsets.all(8),
             margin:  const EdgeInsets.all(8),
             child: const Text(
@@ -59,7 +59,7 @@ class OptionsAvailableWidget extends ConsumerWidget {
             )
         ),
         Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.yellowAccent),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.orange),
           padding: const EdgeInsets.all(8),
           margin:  const EdgeInsets.all(8),
           child: Text(

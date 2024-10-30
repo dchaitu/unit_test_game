@@ -78,22 +78,19 @@ class GameScreen extends ConsumerWidget {
   }
 
 
-  bool checkBeesPresent(WidgetRef ref) {
+  bool checkBeesPresentInTheGame(WidgetRef ref) {
     var gameState = ref.watch(gameStateProvider);
     bool beesInGame = false;
     for (int i = 0; i < gameState.tiles.length; i++) {
-      if (gameState.tiles[i].isBeePresent) {
+      if (gameState.tiles[i].isBeePresent || gameState.beesInHive > 0) {
         beesInGame = true;
         break;
       }
 
     }
-    if (!beesInGame && gameState.beesInHive > 0) {
-      print("beesInHive remaining: ${gameState.beesInHive}");
-      return true;
-    }
 
-    return false;
+
+    return beesInGame;
   }
 
 
@@ -112,8 +109,9 @@ class GameScreen extends ConsumerWidget {
       children: tunnels.entries
           .map((tiles) => Container(
           padding: const EdgeInsets.all(8),
-          child: TunnelWidget(tiles: tiles.value)))
-          .toList(),
+          child: TunnelWidget(tiles: tiles.value)
+      )
+      ).toList(),
     );
 
 
@@ -154,7 +152,8 @@ class GameScreen extends ConsumerWidget {
     }
 
     // Bee not present in Game Ants Won
-    if (checkBeesPresent(ref) == false && !_isAntsWon) {
+    if (checkBeesPresentInTheGame(ref) == false && !_isAntsWon) {
+      print("checkBeesPresentInTheGame(ref):- ${checkBeesPresentInTheGame(ref)}");
       Future.delayed(const Duration(seconds: 1), () {
         isBeeReachedLast.antsWonGameState();
         print("Ants Won");

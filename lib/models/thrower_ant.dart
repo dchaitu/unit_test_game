@@ -2,57 +2,70 @@ import 'ant.dart';
 import '../constants/image_assets.dart';
 
 class ShortThrowerAnt extends Ant {
-  ShortThrowerAnt()
-      : super(
-          antImagePath: ImageAssets.antShortthrower,
-          lower: 0,
-          upper: 3,
-          food: 2,
-          name:"Short"
-        );
+  ShortThrowerAnt({
+    super.antImagePath = ImageAssets.antShortthrower,
+    super.lower,
+    super.upper = 3,
+    super.food = 2,
+    super.maxHealth,
+    super.currHealth,
+    super.damage,
+    super.name = "Short"
+  });
 
   @override
-  ShortThrowerAnt copyWith(
-      {String? antImagePath,
-      int? lower,
-      int? upper,
-      int? health,
-      int? damage,
-      int? food}) {
-    return ShortThrowerAnt()..health = health ?? this.health;
-  }
-
-  @override
-  void reduceAntHealth() {
-    super.reduceAntHealth();
-    print("Short Thrower Ant");
+  ShortThrowerAnt copyWith({
+    String? antImagePath,
+    int? lower,
+    int? upper,
+    int? maxHealth,
+    int? currHealth,
+    int? damage,
+    int? food,
+  }) {
+    return ShortThrowerAnt(
+      antImagePath: antImagePath ?? this.antImagePath,
+      lower: lower ?? this.lower,
+      upper: upper ?? this.upper,
+      maxHealth: maxHealth ?? this.maxHealth,
+      currHealth: currHealth ?? this.currHealth,
+      damage: damage ?? this.damage,
+      food: food ?? this.food,
+    );
   }
 }
 
 class LongThrowerAnt extends Ant {
-  LongThrowerAnt()
-      :super(antImagePath: ImageAssets.antLongthrower,
-            lower: 5,
-            upper: 99,
-            food: 2,
-            name:"Long"
-      );
+  LongThrowerAnt({
+    super.antImagePath = ImageAssets.antLongthrower,
+    super.lower = 5,
+    super.upper,
+    super.food = 2,
+    super.maxHealth,
+    super.currHealth,
+    super.damage,
+    super.name = "Long"
+  });
 
   @override
   LongThrowerAnt copyWith(
       {String? antImagePath,
         int? lower,
         int? upper,
-        int? health,
+        int? maxHealth,
+        int? currHealth,
         int? damage,
         int? food}) {
 
-    return LongThrowerAnt()..health = health ?? this.health;
+    return LongThrowerAnt(
+      antImagePath: antImagePath ?? this.antImagePath,
+      lower: lower ?? this.lower,
+      upper: upper ?? this.upper,
+      maxHealth: maxHealth ?? this.maxHealth,
+      currHealth: currHealth ?? this.currHealth,
+      damage: damage ?? this.damage,
+    );
   }
 
-  @override
-  void reduceAntHealth() {
-    super.reduceAntHealth();
-    print("Short Thrower Ant");
-  }
+
 }
