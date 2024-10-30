@@ -19,12 +19,10 @@ bool isBeesPresentInTheTunnels(WidgetRef ref)
 }
 
 Widget gameStatusWidget(WidgetRef ref) {
-  var gameStatus = ref.read(gameStateProvider).gameStatus;
-  print("Time state:- ${gameStatus.timeCompleted}");
   print(
       "Game status gameCompleted ${ref.read(gameStateProvider).gameStatus.gameCompleted}");
   print(
-      "beesWon:- ${ref.read(gameStateProvider).gameStatus.beesWon} antsWon:- ${ref.read(gameStateProvider).gameStatus.antsWon} timeCompleted:- ${ref.read(gameStateProvider).gameStatus.timeCompleted} ");
+      "beesWon:- ${ref.read(gameStateProvider).gameStatus.beesWon} antsWon:- ${ref.read(gameStateProvider).gameStatus.antsWon} ");
   if (ref.read(gameStateProvider).gameStatus.beesWon) {
     return Container(
       padding: const EdgeInsets.all(10),
