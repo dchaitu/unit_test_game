@@ -89,26 +89,36 @@ final tilesExitProvider = Provider<List<Tile>>((ref) {
 
 
 final tilesWithAntsProvider = Provider((ref) {
+  var allTiles = ref.watch(gameStateProvider).tiles;
   return allTiles.where((tile) => tile.isAntPresent==true).toList();
 });
 
 
+
+final tunnelFromTilesProvider = Provider((ref) {
+    Map<int, List<Tile>> tunnels = {};
+    var tiles = ref.watch(gameStateProvider).tiles;
+
+
+    for (Tile tile in tiles) {
+      int row = int.parse(tile.tileKey!.split('_')[1]);
+
+      if (!tunnels.containsKey(row)) {
+        tunnels[row] = [];
+      }
+      tunnels[row]!.add(tile);
+    }
+
+    return tunnels;
+
+});
+
+
 final tileEntranceForBeesProvider = Provider((ref) {
-  Map<int, List<Tile>> tunnels = ref.read(gameStateProvider.notifier).groupTilesByTunnel(allTiles);
+  Map<int, List<Tile>> tunnels = ref.read(tunnelFromTilesProvider);
 
   List<Tile> endTiles = [];
   for (var tiles in tunnels.values) {
-    for (int i = 0; i < tiles.length - 1; i++) {
-      tiles[i].nextTile = tiles[i + 1];
-
-      if (tiles[i].nextTile == null) {
-        endTiles.add(tiles[i]);
-      }
-    }
-  }
-
-  for (var tiles in tunnels.values) {
-    print("Entrance tiles:- $tiles");
 
     for (int i = 0; i < tiles.length; i++) {
       if (tiles[i].nextTile == null) {

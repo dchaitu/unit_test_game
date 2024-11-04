@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'ant.dart';
+part of 'bee.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,54 +14,44 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Ant _$AntFromJson(Map<String, dynamic> json) {
-  return _Ant.fromJson(json);
+Bee _$BeeFromJson(Map<String, dynamic> json) {
+  return _Bee.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Ant {
+mixin _$Bee {
   String get antImagePath => throw _privateConstructorUsedError;
   int get damage => throw _privateConstructorUsedError;
   int get currHealth => throw _privateConstructorUsedError;
-  int get lower => throw _privateConstructorUsedError;
-  int get upper => throw _privateConstructorUsedError;
-  int get food => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  int get maxHealth => throw _privateConstructorUsedError;
 
-  /// Serializes this Ant to a JSON map.
+  /// Serializes this Bee to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of Ant
+  /// Create a copy of Bee
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AntCopyWith<Ant> get copyWith => throw _privateConstructorUsedError;
+  $BeeCopyWith<Bee> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AntCopyWith<$Res> {
-  factory $AntCopyWith(Ant value, $Res Function(Ant) then) =
-      _$AntCopyWithImpl<$Res, Ant>;
+abstract class $BeeCopyWith<$Res> {
+  factory $BeeCopyWith(Bee value, $Res Function(Bee) then) =
+      _$BeeCopyWithImpl<$Res, Bee>;
   @useResult
-  $Res call(
-      {String antImagePath,
-      int damage,
-      int currHealth,
-      int lower,
-      int upper,
-      int food,
-      String name});
+  $Res call({String antImagePath, int damage, int currHealth, int maxHealth});
 }
 
 /// @nodoc
-class _$AntCopyWithImpl<$Res, $Val extends Ant> implements $AntCopyWith<$Res> {
-  _$AntCopyWithImpl(this._value, this._then);
+class _$BeeCopyWithImpl<$Res, $Val extends Bee> implements $BeeCopyWith<$Res> {
+  _$BeeCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Ant
+  /// Create a copy of Bee
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -69,10 +59,7 @@ class _$AntCopyWithImpl<$Res, $Val extends Ant> implements $AntCopyWith<$Res> {
     Object? antImagePath = null,
     Object? damage = null,
     Object? currHealth = null,
-    Object? lower = null,
-    Object? upper = null,
-    Object? food = null,
-    Object? name = null,
+    Object? maxHealth = null,
   }) {
     return _then(_value.copyWith(
       antImagePath: null == antImagePath
@@ -87,49 +74,30 @@ class _$AntCopyWithImpl<$Res, $Val extends Ant> implements $AntCopyWith<$Res> {
           ? _value.currHealth
           : currHealth // ignore: cast_nullable_to_non_nullable
               as int,
-      lower: null == lower
-          ? _value.lower
-          : lower // ignore: cast_nullable_to_non_nullable
+      maxHealth: null == maxHealth
+          ? _value.maxHealth
+          : maxHealth // ignore: cast_nullable_to_non_nullable
               as int,
-      upper: null == upper
-          ? _value.upper
-          : upper // ignore: cast_nullable_to_non_nullable
-              as int,
-      food: null == food
-          ? _value.food
-          : food // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$AntImplCopyWith<$Res> implements $AntCopyWith<$Res> {
-  factory _$$AntImplCopyWith(_$AntImpl value, $Res Function(_$AntImpl) then) =
-      __$$AntImplCopyWithImpl<$Res>;
+abstract class _$$BeeImplCopyWith<$Res> implements $BeeCopyWith<$Res> {
+  factory _$$BeeImplCopyWith(_$BeeImpl value, $Res Function(_$BeeImpl) then) =
+      __$$BeeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String antImagePath,
-      int damage,
-      int currHealth,
-      int lower,
-      int upper,
-      int food,
-      String name});
+  $Res call({String antImagePath, int damage, int currHealth, int maxHealth});
 }
 
 /// @nodoc
-class __$$AntImplCopyWithImpl<$Res> extends _$AntCopyWithImpl<$Res, _$AntImpl>
-    implements _$$AntImplCopyWith<$Res> {
-  __$$AntImplCopyWithImpl(_$AntImpl _value, $Res Function(_$AntImpl) _then)
+class __$$BeeImplCopyWithImpl<$Res> extends _$BeeCopyWithImpl<$Res, _$BeeImpl>
+    implements _$$BeeImplCopyWith<$Res> {
+  __$$BeeImplCopyWithImpl(_$BeeImpl _value, $Res Function(_$BeeImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Ant
+  /// Create a copy of Bee
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -137,12 +105,9 @@ class __$$AntImplCopyWithImpl<$Res> extends _$AntCopyWithImpl<$Res, _$AntImpl>
     Object? antImagePath = null,
     Object? damage = null,
     Object? currHealth = null,
-    Object? lower = null,
-    Object? upper = null,
-    Object? food = null,
-    Object? name = null,
+    Object? maxHealth = null,
   }) {
-    return _then(_$AntImpl(
+    return _then(_$BeeImpl(
       antImagePath: null == antImagePath
           ? _value.antImagePath
           : antImagePath // ignore: cast_nullable_to_non_nullable
@@ -155,40 +120,25 @@ class __$$AntImplCopyWithImpl<$Res> extends _$AntCopyWithImpl<$Res, _$AntImpl>
           ? _value.currHealth
           : currHealth // ignore: cast_nullable_to_non_nullable
               as int,
-      lower: null == lower
-          ? _value.lower
-          : lower // ignore: cast_nullable_to_non_nullable
+      maxHealth: null == maxHealth
+          ? _value.maxHealth
+          : maxHealth // ignore: cast_nullable_to_non_nullable
               as int,
-      upper: null == upper
-          ? _value.upper
-          : upper // ignore: cast_nullable_to_non_nullable
-              as int,
-      food: null == food
-          ? _value.food
-          : food // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$AntImpl implements _Ant {
-  const _$AntImpl(
-      {this.antImagePath = ImageAssets.antThrower,
+class _$BeeImpl implements _Bee {
+  const _$BeeImpl(
+      {this.antImagePath = ImageAssets.bee,
       this.damage = 1,
       this.currHealth = 2,
-      this.lower = 0,
-      this.upper = 99,
-      this.food = 3,
-      this.name = "Thrower"});
+      this.maxHealth = 2});
 
-  factory _$AntImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AntImplFromJson(json);
+  factory _$BeeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BeeImplFromJson(json);
 
   @override
   @JsonKey()
@@ -201,70 +151,56 @@ class _$AntImpl implements _Ant {
   final int currHealth;
   @override
   @JsonKey()
-  final int lower;
-  @override
-  @JsonKey()
-  final int upper;
-  @override
-  @JsonKey()
-  final int food;
-  @override
-  @JsonKey()
-  final String name;
+  final int maxHealth;
 
   @override
   String toString() {
-    return 'Ant(antImagePath: $antImagePath, damage: $damage, currHealth: $currHealth, lower: $lower, upper: $upper, food: $food, name: $name)';
+    return 'Bee(antImagePath: $antImagePath, damage: $damage, currHealth: $currHealth, maxHealth: $maxHealth)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AntImpl &&
+            other is _$BeeImpl &&
             (identical(other.antImagePath, antImagePath) ||
                 other.antImagePath == antImagePath) &&
             (identical(other.damage, damage) || other.damage == damage) &&
             (identical(other.currHealth, currHealth) ||
                 other.currHealth == currHealth) &&
-            (identical(other.lower, lower) || other.lower == lower) &&
-            (identical(other.upper, upper) || other.upper == upper) &&
-            (identical(other.food, food) || other.food == food) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.maxHealth, maxHealth) ||
+                other.maxHealth == maxHealth));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, antImagePath, damage, currHealth, lower, upper, food, name);
+  int get hashCode =>
+      Object.hash(runtimeType, antImagePath, damage, currHealth, maxHealth);
 
-  /// Create a copy of Ant
+  /// Create a copy of Bee
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$AntImplCopyWith<_$AntImpl> get copyWith =>
-      __$$AntImplCopyWithImpl<_$AntImpl>(this, _$identity);
+  _$$BeeImplCopyWith<_$BeeImpl> get copyWith =>
+      __$$BeeImplCopyWithImpl<_$BeeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AntImplToJson(
+    return _$$BeeImplToJson(
       this,
     );
   }
 }
 
-abstract class _Ant implements Ant {
-  const factory _Ant(
+abstract class _Bee implements Bee {
+  const factory _Bee(
       {final String antImagePath,
       final int damage,
       final int currHealth,
-      final int lower,
-      final int upper,
-      final int food,
-      final String name}) = _$AntImpl;
+      final int maxHealth}) = _$BeeImpl;
 
-  factory _Ant.fromJson(Map<String, dynamic> json) = _$AntImpl.fromJson;
+  factory _Bee.fromJson(Map<String, dynamic> json) = _$BeeImpl.fromJson;
 
   @override
   String get antImagePath;
@@ -273,18 +209,12 @@ abstract class _Ant implements Ant {
   @override
   int get currHealth;
   @override
-  int get lower;
-  @override
-  int get upper;
-  @override
-  int get food;
-  @override
-  String get name;
+  int get maxHealth;
 
-  /// Create a copy of Ant
+  /// Create a copy of Bee
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AntImplCopyWith<_$AntImpl> get copyWith =>
+  _$$BeeImplCopyWith<_$BeeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

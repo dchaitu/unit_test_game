@@ -7,20 +7,7 @@ class OptionsAvailableWidget extends ConsumerWidget {
 
 
 
-  int displayTime(WidgetRef ref) {
-    var countDownTimer = ref.watch(gameStateProvider).countDown;
-      ref.read(gameStateProvider.notifier).runCountdown();
-    var gameCompleted = ref.watch(gameStateProvider).gameStatus.gameCompleted;
 
-    if (!gameCompleted) {
-      ref.read(gameStateProvider.notifier).runCountdown();
-    }
-
-
-    return countDownTimer;
-
-
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,7 +39,7 @@ class OptionsAvailableWidget extends ConsumerWidget {
                 text: TextSpan(
                     children: [
                       const TextSpan(text: "Timer:  ", style:  const TextStyle(color: Colors.white)),
-                      TextSpan(text: displayTime(ref).toString(), style:  const TextStyle(fontWeight: FontWeight.bold, color: Colors.white))
+                      // TextSpan(text: displayTime(ref).toString(), style:  const TextStyle(fontWeight: FontWeight.bold, color: Colors.white))
                     ]
 
                 )

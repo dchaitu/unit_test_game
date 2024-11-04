@@ -18,7 +18,7 @@ class Insect {
 
   void reduceHealth()
   {
-    print("Ant Health $health");
+    // print("Ant Health $health");
     health -=1;
   }
 

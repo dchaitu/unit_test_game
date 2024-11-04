@@ -50,7 +50,6 @@ class TileWidget extends ConsumerWidget {
     return GestureDetector(
       onTap: ()
       {
-        print("Gesture tapped ${tile.tileKey}");
         ref.read(gameStateProvider.notifier).addImgToTile(tile);
 
       },
