@@ -1,5 +1,5 @@
 import 'ant.dart';
-import '../constants/image_assets.dart';
+import 'package:unit_test_game/constants/image_assets.dart';
 
 class ShortThrowerAnt extends Ant {
   ShortThrowerAnt({

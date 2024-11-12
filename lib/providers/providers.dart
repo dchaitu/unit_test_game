@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../constants/image_assets.dart';
-import 'game_state_provider.dart';
-import '../models/tile.dart';
+import 'package:unit_test_game/constants/image_assets.dart';
+import 'package:unit_test_game/providers/game_state_provider.dart';
+import 'package:unit_test_game/models/tile.dart';
 
 List<Tile> allTiles = [
   Tile(

@@ -1,5 +1,5 @@
-import '../models/ant.dart';
-import '../models/thrower_ant.dart';
+import 'package:unit_test_game/models/ant.dart';
+import 'package:unit_test_game/models/thrower_ant.dart';
 import 'image_assets.dart';
 
 Ant? getAntFromImage(String imagePath) {

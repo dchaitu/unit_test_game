@@ -8,7 +8,6 @@ import 'package:unit_test_game/models/bee.dart';
 class GameState {
   List<Tile> tiles;
   GameStatus gameStatus;
-  int countDown;
   int foodAvailable;
   String? selectedAntUrl;
   int beesInHive;
@@ -16,7 +15,6 @@ class GameState {
   GameState(
       {required this.tiles,
       required this.gameStatus,
-      required this.countDown,
       required this.foodAvailable,
       this.selectedAntUrl,
       required this.beesInHive});
@@ -29,30 +27,28 @@ class GameState {
       int? foodAvailable,
       int? beesInHive}) {
     return GameState(
-        tiles: tiles ?? this.tiles,
-        gameStatus: gameStatus ?? this.gameStatus,
-        countDown: countDown ?? this.countDown,
-        selectedAntUrl: selectedAntUrl ?? this.selectedAntUrl,
-        foodAvailable: foodAvailable ?? this.foodAvailable,
-        beesInHive: beesInHive ?? this.beesInHive);
+      tiles: tiles ?? this.tiles,
+      gameStatus: gameStatus ?? this.gameStatus,
+      selectedAntUrl: selectedAntUrl ?? this.selectedAntUrl,
+      foodAvailable: foodAvailable ?? this.foodAvailable,
+      beesInHive: beesInHive ?? this.beesInHive,
+    );
   }
 }
 
 class GameStatus {
   bool beesWon;
   bool antsWon;
-  bool timerRunning;
 
   bool get gameCompleted => antsWon || beesWon;
 
-  GameStatus(
-      {this.beesWon = false, this.antsWon = false, this.timerRunning = false});
+  GameStatus({this.beesWon = false, this.antsWon = false});
 
-  GameStatus copyWith({bool? beesWon, bool? antsWon, bool? timerRunning}) {
+  GameStatus copyWith({bool? beesWon, bool? antsWon}) {
     return GameStatus(
-        beesWon: beesWon ?? this.beesWon,
-        antsWon: antsWon ?? this.antsWon,
-        timerRunning: timerRunning ?? this.timerRunning);
+      beesWon: beesWon ?? this.beesWon,
+      antsWon: antsWon ?? this.antsWon,
+    );
   }
 
   @override
@@ -64,42 +60,22 @@ class GameStatus {
 final gameStateProvider =
     StateNotifierProvider<GameStateNotifier, GameState>((ref) {
   return GameStateNotifier(
-      gameState: GameState(
-          tiles: ref.watch(tilesProvider),
-          gameStatus: GameStatus(),
-          countDown: 0,
-          foodAvailable: 50,
-          beesInHive: 10));
+    gameState: GameState(
+        tiles: ref.watch(tilesProvider),
+        gameStatus: GameStatus(),
+        foodAvailable: 50,
+        beesInHive: 10),
+  );
 });
 
 class GameStateNotifier extends StateNotifier<GameState> {
   GameStateNotifier({gameState}) : super(gameState);
-
-  // Timer? _gameTimer;
-  void runCountdown() {
-    // if (_timer != null && _timer!.isActive) return;
-
-    // _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    // print("state.gameStatus.gameCompleted: ${state.gameStatus.gameCompleted}");
-    if (!state.gameStatus.gameCompleted) {
-      state = state.copyWith(countDown: state.countDown + 1);
-      // print("Countdown updated ${state.countDown}");
-    } else {
-      // print("Timer stopped");
-      // _timer?.cancel();
-      // _timer = null;
-    }
-    // });
-  }
 
   void beesWonGameState() => state =
       state.copyWith(gameStatus: state.gameStatus.copyWith(beesWon: true));
 
   void antsWonGameState() => state =
       state.copyWith(gameStatus: state.gameStatus.copyWith(antsWon: true));
-
-  void setTimerRunning(bool setValue) => state = state.copyWith(
-      gameStatus: state.gameStatus.copyWith(timerRunning: setValue));
 
   void moveBeeForward(WidgetRef ref) {
     Map<int, List<Tile>> tunnels = ref.read(tunnelFromTilesProvider);
@@ -112,7 +88,7 @@ class GameStateNotifier extends StateNotifier<GameState> {
     List<Tile> updatedTiles = state.tiles;
 
     for (int i = 1; i < gameTiles.length; i++) {
-      if (gameTiles[i].isBeePresent) {
+      if (gameTiles[i].isBeePresent && !gameTiles[i].isAntPresent) {
         Bee bee = gameTiles[i].bees!.last;
         gameTiles[i].bees!.remove(bee);
         gameTiles[i - 1].bees!.add(bee);
@@ -134,27 +110,17 @@ class GameStateNotifier extends StateNotifier<GameState> {
 
     List<Tile> updatedTiles = state.tiles;
     var endTiles = ref.watch(tileEntranceForBeesProvider);
-    // print("endTiles:- ${endTiles.length}");
-    // Updating tiles old status
-
-    // if(state.beesInHive>0) {
     for (Tile tile in endTiles) {
       tile.bees!.add(Bee());
     }
 
-    // print("add Bee endTiles :- $endTiles");
-
-    // Updating state
     for (Tile tile in endTiles) {
       updatedTiles.map((oldTile) {
         (oldTile.tileKey == tile.tileKey) ? tile : oldTile;
       }).toList();
     }
-    // print("oldTiles:- $updatedTiles");
     var currBees = state.beesInHive - endTiles.length;
-    // print("currBees $currBees");
     state = state.copyWith(tiles: updatedTiles, beesInHive: currBees);
-    // }
   }
 
   void showTileDetails() {
@@ -181,7 +147,6 @@ class GameStateNotifier extends StateNotifier<GameState> {
     for (int i = 0; i < gameTiles.length; i++) {
       if (gameTiles[i].isAntPresent == true &&
           gameTiles[i].isBeePresent == true) {
-        // print("Ant reduceHealth ${gameTiles[i].ant}");
         Ant? newAnt = reduceHealth(gameTiles[i].ant!);
 
         gameTiles[i].ant = newAnt;
@@ -190,8 +155,6 @@ class GameStateNotifier extends StateNotifier<GameState> {
           gameTiles[i].ant = null;
           // print("Ant end");
         }
-      } else {
-        // print("isAntPresent ${gameTiles[i].isAntPresent} isBeePresent ${gameTiles[i].isBeePresent} tileKey ${gameTiles[i].tileKey} Bees: ${gameTiles[i].bees}");
       }
       state = state.copyWith(tiles: gameTiles);
     }

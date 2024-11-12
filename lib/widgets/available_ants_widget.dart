@@ -23,7 +23,7 @@ class AvailableAntsWidget extends ConsumerWidget {
           children: [
             Image.asset(ant.antImagePath, height: 50, width: 50),
             Text(ant.name),
-            Divider(thickness: 12, height: 2, color: Colors.black),
+            const Divider(thickness: 12, height: 2, color: Colors.black),
             Text(ant.food.toString()),
           ],
         ),

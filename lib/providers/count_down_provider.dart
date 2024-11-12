@@ -13,17 +13,20 @@ class CountdownNotifier extends StateNotifier<int> {
 
   void startCountdown() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      state += 1; // increment countdown
+      state += 1;
     });
   }
 
   void stopCountdown() {
-    _timer?.cancel();
+    if (_timer != null) {
+      _timer?.cancel();
+      _timer = null;
+    }
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
+    stopCountdown();
     super.dispose();
   }
 }
