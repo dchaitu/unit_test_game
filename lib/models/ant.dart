@@ -1,39 +1,20 @@
-
 import '../constants/image_assets.dart';
 
 class Ant {
-  final String antImagePath;
-  final int damage;
+  static const antImagePath = ImageAssets.antThrower;
+  static const damage = 1;
+  static const lower = 0;
+  static const upper = 99;
+  static const food = 3;
+  static const maxHealth = 2;
+  static const name = "Thrower";
+
   final int currHealth;
-  final int maxHealth;
-  final int lower;
-  final int upper;
-  final int food;
-  final String name;
 
+  Ant({this.currHealth = 2});
 
-
-  Ant({
-    this.antImagePath= ImageAssets.antThrower,
-    this.damage = 1,
-    this.maxHealth = 2,
-    this.currHealth=2,
-    this.lower= 0,
-    this.upper=99,
-    this.food=3,
-    this.name="Thrower"
-  });
-
-  Ant copyWith({String? antImagePath, int? lower, int? upper, int? maxHealth, int? damage, int? food, int? currHealth}) {
-    return Ant(
-      antImagePath: antImagePath ?? this.antImagePath,
-      lower: lower ?? this.lower,
-      upper: upper ?? this.upper,
-      currHealth: currHealth ?? this.currHealth,
-      damage: damage ?? this.damage,
-      food: food?? this.food,
-      maxHealth:maxHealth ?? this.maxHealth
-    );
+  Ant copyWith({int? currHealth}) {
+    return Ant(currHealth: currHealth ?? this.currHealth);
   }
 
 

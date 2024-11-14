@@ -5,15 +5,15 @@ import '../constants/get_ants.dart';
 
 class Tile {
   String? tileKey;
-  bool get isAntPresent => ant != null;
   String? antImagePath;
   Ant? ant;
   final String groundTileImgUrl;
   final String skyTileImgUrl;
-  int get noOfBees => bees!.length;
   List<Bee>? bees;
   Tile? nextTile;
+  int get noOfBees => bees!.length;
   bool get isBeePresent=> bees?.isNotEmpty== true;
+  bool get isAntPresent => ant != null;
 
 
   Tile({
@@ -77,23 +77,6 @@ class Tile {
         ant: ant ?? this.ant
     );
 
-  }
-
-  static List<Bee>? createAndGetBees(int noOfBees)
-  {
-    List<Bee> bees = [];
-    for(int i=0;i<noOfBees;i++)
-      {
-        bees.add(Bee());
-      }
-    return bees;
-  }
-
-  Tile? getTileFromTileKey(String tileKey)
-  {
-    if(this.tileKey == tileKey)
-        return this;
-    return null;
   }
 
 

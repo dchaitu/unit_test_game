@@ -2,70 +2,43 @@ import 'ant.dart';
 import 'package:unit_test_game/constants/image_assets.dart';
 
 class ShortThrowerAnt extends Ant {
+  static const antImagePath = ImageAssets.antShortthrower;
+  static const damage = 1;
+  static const lower = 0;
+  static const upper = 3;
+  static const food = 2;
+  static const maxHealth = 2;
+  static const name = "Short";
+
   ShortThrowerAnt({
-    super.antImagePath = ImageAssets.antShortthrower,
-    super.lower,
-    super.upper = 3,
-    super.food = 2,
-    super.maxHealth,
     super.currHealth,
-    super.damage,
-    super.name = "Short"
   });
 
   @override
-  ShortThrowerAnt copyWith({
-    String? antImagePath,
-    int? lower,
-    int? upper,
-    int? maxHealth,
-    int? currHealth,
-    int? damage,
-    int? food,
-  }) {
+  ShortThrowerAnt copyWith({int? currHealth}) {
     return ShortThrowerAnt(
-      antImagePath: antImagePath ?? this.antImagePath,
-      lower: lower ?? this.lower,
-      upper: upper ?? this.upper,
-      maxHealth: maxHealth ?? this.maxHealth,
       currHealth: currHealth ?? this.currHealth,
-      damage: damage ?? this.damage,
-      food: food ?? this.food,
     );
   }
 }
 
 class LongThrowerAnt extends Ant {
+  static const antImagePath = ImageAssets.antLongthrower;
+  static const damage = 1;
+  static const lower = 5;
+  static const upper = 99;
+  static const food = 2;
+  static const maxHealth = 2;
+  static const name = "Long";
+
   LongThrowerAnt({
-    super.antImagePath = ImageAssets.antLongthrower,
-    super.lower = 5,
-    super.upper,
-    super.food = 2,
-    super.maxHealth,
     super.currHealth,
-    super.damage,
-    super.name = "Long"
   });
 
   @override
-  LongThrowerAnt copyWith(
-      {String? antImagePath,
-        int? lower,
-        int? upper,
-        int? maxHealth,
-        int? currHealth,
-        int? damage,
-        int? food}) {
-
+  LongThrowerAnt copyWith({int? currHealth}) {
     return LongThrowerAnt(
-      antImagePath: antImagePath ?? this.antImagePath,
-      lower: lower ?? this.lower,
-      upper: upper ?? this.upper,
-      maxHealth: maxHealth ?? this.maxHealth,
       currHealth: currHealth ?? this.currHealth,
-      damage: damage ?? this.damage,
     );
   }
-
-
 }

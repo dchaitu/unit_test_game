@@ -1,36 +1,18 @@
+import 'package:unit_test_game/constants/image_assets.dart';
 
-import '../constants/image_assets.dart';
-import 'insect.dart';
-
-class Bee{
-
-  final String imagePath;
-  final int damage;
+class Bee {
+  static const imagePath = ImageAssets.bee;
+  static const damage = 1;
+  static const maxHealth = 2;
   final int currHealth;
-  final int maxHealth;
 
   Bee({
-    this.imagePath=ImageAssets.bee,
-    this.damage = 1,
-    this.maxHealth = 2,
-    this.currHealth=2,
+    this.currHealth = 2,
   });
 
-
-
-  Bee copyWith({String? imagePath, int? currHealth, int? damage, int? maxHealth}) {
+  Bee copyWith({int? currHealth}) {
     return Bee(
-        currHealth: currHealth ?? this.currHealth,
-        maxHealth: maxHealth ?? this.maxHealth,
-        damage:damage ?? this.damage,
-        imagePath:imagePath??this.imagePath
+      currHealth: currHealth ?? this.currHealth,
     );
   }
-
-  // void reduceBeeHealth()
-  // {
-  //   print("Bee health reduced");
-  //   // super.reduceHealth();
-  // }
-
 }

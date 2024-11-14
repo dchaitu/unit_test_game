@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:unit_test_game/constants/get_ants.dart';
 import 'package:unit_test_game/models/ant.dart';
 
 class AntWidget extends ConsumerWidget {
@@ -13,11 +14,12 @@ class AntWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    String antImagePath = getStringFromAnt(ant);
     return Column(
       children: [
         Text(ant.currHealth.toString()),
         Image.asset(
-          ant.antImagePath,
+          antImagePath,
           width: 45,
           height: 45,
         ),

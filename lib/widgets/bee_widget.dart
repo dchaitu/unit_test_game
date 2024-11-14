@@ -13,7 +13,7 @@ class BeeWidget extends ConsumerWidget {
       children: [
         Text(bee.currHealth.toString()),
         Image.asset(
-          bee.imagePath,
+          Bee.imagePath,
           width: 50,
           height: 50,
         ),

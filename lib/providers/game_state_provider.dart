@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:unit_test_game/constants/get_ants.dart';
 import 'package:unit_test_game/models/ant.dart';
+import 'package:unit_test_game/models/thrower_ant.dart';
 import 'package:unit_test_game/providers/providers.dart';
 import 'package:unit_test_game/models/tile.dart';
 import 'package:unit_test_game/models/bee.dart';
@@ -147,13 +148,13 @@ class GameStateNotifier extends StateNotifier<GameState> {
     for (int i = 0; i < gameTiles.length; i++) {
       if (gameTiles[i].isAntPresent == true &&
           gameTiles[i].isBeePresent == true) {
+        for(int j=0;j< gameTiles[i].noOfBees;j++) {
         Ant? newAnt = reduceHealth(gameTiles[i].ant!);
-
         gameTiles[i].ant = newAnt;
         if (gameTiles[i].ant != null && gameTiles[i].ant!.currHealth <= 0) {
           gameTiles[i].antImagePath = null;
           gameTiles[i].ant = null;
-          // print("Ant end");
+        }
         }
       }
       state = state.copyWith(tiles: gameTiles);
@@ -162,8 +163,21 @@ class GameStateNotifier extends StateNotifier<GameState> {
 
   Tile? nearestBee(Tile tile) {
     int currDis = 0;
-    int lowerBound = tile.ant!.lower;
-    int upperBound = tile.ant!.upper;
+    int lowerBound;
+    int upperBound;
+
+    if (tile.antImagePath == ShortThrowerAnt.antImagePath) {
+      lowerBound = ShortThrowerAnt.lower;
+      upperBound = ShortThrowerAnt.upper;
+    } else if (tile.antImagePath == LongThrowerAnt.antImagePath) {
+      lowerBound = LongThrowerAnt.lower;
+      upperBound = LongThrowerAnt.upper;
+    } else {
+      lowerBound = Ant.lower;
+      upperBound = Ant.upper;
+    }
+
+
     Tile? currentTile = tile;
 
     while (currentTile != null &&
@@ -212,6 +226,16 @@ class GameStateNotifier extends StateNotifier<GameState> {
   }
 
   void addImgToTile(Tile addAntToTile) {
+    int antFoodCost;
+    if (addAntToTile.antImagePath == ShortThrowerAnt.antImagePath) {
+      antFoodCost = ShortThrowerAnt.food;
+    } else if (addAntToTile.antImagePath == LongThrowerAnt.antImagePath) {
+      antFoodCost = LongThrowerAnt.food;
+    } else {
+      antFoodCost = Ant.food;
+    }
+
+
     var gameTiles = state.tiles;
     var imgPath = state.selectedAntUrl;
     for (int i = 0; i < gameTiles.length; i++) {
@@ -220,7 +244,7 @@ class GameStateNotifier extends StateNotifier<GameState> {
           state.foodAvailable > 0) {
         gameTiles[i] = gameTiles[i]
             .copyWith(antImagePath: imgPath, ant: getAntFromImage(imgPath!));
-        var currFoodAvailable = state.foodAvailable - gameTiles[i].ant!.food;
+        var currFoodAvailable = state.foodAvailable - antFoodCost;
         if (currFoodAvailable > 0) {
           state = state.copyWith(foodAvailable: currFoodAvailable);
         } else {
