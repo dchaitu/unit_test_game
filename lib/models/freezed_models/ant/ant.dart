@@ -7,15 +7,16 @@ part 'ant.freezed.dart';
 
 @freezed
 class Ant with _$Ant{
+  static const antImagePath = ImageAssets.antThrower;
+  static const damage = 1;
+  static const lower = 0;
+  static const upper = 99;
+  static const food = 3;
+  static const maxHealth = 2;
+  static const name = "Thrower";
  const factory Ant({
-   @Default(ImageAssets.antThrower) String antImagePath,
-   @Default(1) int damage,
    @Default(2) int currHealth,
-   @Default(2) int maxHealth,
-   @Default(0) int lower,
-   @Default(99) int upper,
-   @Default(3) int food,
-   @Default("Thrower") String name
+
 
  }) = _Ant;
 

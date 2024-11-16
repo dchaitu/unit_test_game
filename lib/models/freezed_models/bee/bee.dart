@@ -5,11 +5,11 @@ part 'bee.freezed.dart';
 
 @freezed
 class Bee with _$Bee{
+  static const imagePath = ImageAssets.bee;
+  static const damage = 1;
+  static const maxHealth = 2;
   const factory Bee({
-    @Default(ImageAssets.bee) String antImagePath,
-    @Default(1) int damage,
     @Default(2) int currHealth,
-    @Default(2) int maxHealth
 
 }) = _Bee;
 

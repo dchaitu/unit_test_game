@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:unit_test_game/models/tile.dart';
+import 'package:unit_test_game/models/freezed_models/tile/tile.dart';
 import 'package:unit_test_game/providers/count_down_provider.dart';
 import 'package:unit_test_game/providers/game_state_provider.dart';
 import 'package:unit_test_game/providers/providers.dart';
@@ -90,4 +90,5 @@ Future<void> gameStateLogic(WidgetRef ref, Timer timer) async {
     timer.cancel();
     print("Game timer has been successfully canceled.");
   }
+  print("1 turn completed");
 }

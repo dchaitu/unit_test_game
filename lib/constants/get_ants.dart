@@ -28,8 +28,6 @@ String getStringFromAnt(Ant ant)
   {
     antImgPath = ImageAssets.antThrower;
   }
-  // else
-  //   antImgPath= null;
 
 
   return antImgPath;

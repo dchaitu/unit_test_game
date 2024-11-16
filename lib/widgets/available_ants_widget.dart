@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:unit_test_game/models/thrower_ant.dart';
 import 'package:unit_test_game/providers/game_state_provider.dart';
 
-import '../models/ant.dart';
-import '../constants/get_ants.dart';
+import 'package:unit_test_game/models/ant.dart';
+import 'package:unit_test_game/constants/get_ants.dart';
 
 class AvailableAntsWidget extends ConsumerWidget {
 
@@ -14,7 +14,7 @@ class AvailableAntsWidget extends ConsumerWidget {
 
 
 
-  addAnt(Ant ant, WidgetRef ref)
+  Widget addAnt(Ant ant, WidgetRef ref)
   {
     String antName;
     int foodCost;

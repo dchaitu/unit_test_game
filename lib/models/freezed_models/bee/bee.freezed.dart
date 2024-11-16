@@ -20,10 +20,7 @@ Bee _$BeeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Bee {
-  String get antImagePath => throw _privateConstructorUsedError;
-  int get damage => throw _privateConstructorUsedError;
   int get currHealth => throw _privateConstructorUsedError;
-  int get maxHealth => throw _privateConstructorUsedError;
 
   /// Serializes this Bee to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +36,7 @@ abstract class $BeeCopyWith<$Res> {
   factory $BeeCopyWith(Bee value, $Res Function(Bee) then) =
       _$BeeCopyWithImpl<$Res, Bee>;
   @useResult
-  $Res call({String antImagePath, int damage, int currHealth, int maxHealth});
+  $Res call({int currHealth});
 }
 
 /// @nodoc
@@ -56,27 +53,12 @@ class _$BeeCopyWithImpl<$Res, $Val extends Bee> implements $BeeCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? antImagePath = null,
-    Object? damage = null,
     Object? currHealth = null,
-    Object? maxHealth = null,
   }) {
     return _then(_value.copyWith(
-      antImagePath: null == antImagePath
-          ? _value.antImagePath
-          : antImagePath // ignore: cast_nullable_to_non_nullable
-              as String,
-      damage: null == damage
-          ? _value.damage
-          : damage // ignore: cast_nullable_to_non_nullable
-              as int,
       currHealth: null == currHealth
           ? _value.currHealth
           : currHealth // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxHealth: null == maxHealth
-          ? _value.maxHealth
-          : maxHealth // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -88,7 +70,7 @@ abstract class _$$BeeImplCopyWith<$Res> implements $BeeCopyWith<$Res> {
       __$$BeeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String antImagePath, int damage, int currHealth, int maxHealth});
+  $Res call({int currHealth});
 }
 
 /// @nodoc
@@ -102,27 +84,12 @@ class __$$BeeImplCopyWithImpl<$Res> extends _$BeeCopyWithImpl<$Res, _$BeeImpl>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? antImagePath = null,
-    Object? damage = null,
     Object? currHealth = null,
-    Object? maxHealth = null,
   }) {
     return _then(_$BeeImpl(
-      antImagePath: null == antImagePath
-          ? _value.antImagePath
-          : antImagePath // ignore: cast_nullable_to_non_nullable
-              as String,
-      damage: null == damage
-          ? _value.damage
-          : damage // ignore: cast_nullable_to_non_nullable
-              as int,
       currHealth: null == currHealth
           ? _value.currHealth
           : currHealth // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxHealth: null == maxHealth
-          ? _value.maxHealth
-          : maxHealth // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -131,31 +98,18 @@ class __$$BeeImplCopyWithImpl<$Res> extends _$BeeCopyWithImpl<$Res, _$BeeImpl>
 /// @nodoc
 @JsonSerializable()
 class _$BeeImpl implements _Bee {
-  const _$BeeImpl(
-      {this.antImagePath = ImageAssets.bee,
-      this.damage = 1,
-      this.currHealth = 2,
-      this.maxHealth = 2});
+  const _$BeeImpl({this.currHealth = 2});
 
   factory _$BeeImpl.fromJson(Map<String, dynamic> json) =>
       _$$BeeImplFromJson(json);
 
   @override
   @JsonKey()
-  final String antImagePath;
-  @override
-  @JsonKey()
-  final int damage;
-  @override
-  @JsonKey()
   final int currHealth;
-  @override
-  @JsonKey()
-  final int maxHealth;
 
   @override
   String toString() {
-    return 'Bee(antImagePath: $antImagePath, damage: $damage, currHealth: $currHealth, maxHealth: $maxHealth)';
+    return 'Bee(currHealth: $currHealth)';
   }
 
   @override
@@ -163,19 +117,13 @@ class _$BeeImpl implements _Bee {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BeeImpl &&
-            (identical(other.antImagePath, antImagePath) ||
-                other.antImagePath == antImagePath) &&
-            (identical(other.damage, damage) || other.damage == damage) &&
             (identical(other.currHealth, currHealth) ||
-                other.currHealth == currHealth) &&
-            (identical(other.maxHealth, maxHealth) ||
-                other.maxHealth == maxHealth));
+                other.currHealth == currHealth));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, antImagePath, damage, currHealth, maxHealth);
+  int get hashCode => Object.hash(runtimeType, currHealth);
 
   /// Create a copy of Bee
   /// with the given fields replaced by the non-null parameter values.
@@ -194,22 +142,12 @@ class _$BeeImpl implements _Bee {
 }
 
 abstract class _Bee implements Bee {
-  const factory _Bee(
-      {final String antImagePath,
-      final int damage,
-      final int currHealth,
-      final int maxHealth}) = _$BeeImpl;
+  const factory _Bee({final int currHealth}) = _$BeeImpl;
 
   factory _Bee.fromJson(Map<String, dynamic> json) = _$BeeImpl.fromJson;
 
   @override
-  String get antImagePath;
-  @override
-  int get damage;
-  @override
   int get currHealth;
-  @override
-  int get maxHealth;
 
   /// Create a copy of Bee
   /// with the given fields replaced by the non-null parameter values.

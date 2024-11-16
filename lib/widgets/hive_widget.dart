@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:unit_test_game/models/freezed_models/bee/bee.dart';
 
-import '../models/bee.dart';
 import 'bee_widget.dart';
 import '../providers/game_state_provider.dart';
 
@@ -23,6 +23,6 @@ class HiveWidget extends ConsumerWidget {
 
 List<Widget> generateBees(beeNo) {
   return List.generate(beeNo, (index) {
-    return FittedBox(fit: BoxFit.scaleDown, child: BeeWidget(bee: Bee()));
+    return const FittedBox(fit: BoxFit.scaleDown, child: BeeWidget(bee: Bee()));
   });
 }

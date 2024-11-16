@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:unit_test_game/models/freezed_models/tile/tile.dart';
 import 'ant_widget.dart';
 import 'bee_widget.dart';
 import '../providers/game_state_provider.dart';
-import '../models/tile.dart';
 
 class TileWidget extends ConsumerWidget {
   final Tile tile;

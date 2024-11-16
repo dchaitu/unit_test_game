@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/bee.dart';
+import 'package:unit_test_game/models/freezed_models/bee/bee.dart';
 
 class BeeWidget extends ConsumerWidget {
   final Bee bee;

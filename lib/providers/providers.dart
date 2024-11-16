@@ -2,75 +2,66 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:unit_test_game/constants/image_assets.dart';
 import 'package:unit_test_game/providers/game_state_provider.dart';
-import 'package:unit_test_game/models/tile.dart';
+
+import '../models/freezed_models/tile/tile.dart';
 
 List<Tile> allTiles = [
   Tile(
     tileKey: "tileKey_0_0",
-    antImagePath: null,
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
   ),
   Tile(
     tileKey: "tileKey_0_1",
-    antImagePath: null,
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
   ),
   Tile(
     tileKey: "tileKey_0_2",
-    antImagePath: null,
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
   ),
   Tile(
     tileKey: "tileKey_0_3",
-    antImagePath: null,
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
   ),
   Tile(
     tileKey: "tileKey_0_4",
-    antImagePath: null,
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
   ),
   Tile(
     tileKey: "tileKey_1_0",
-    antImagePath: null,
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
   ),
   Tile(
     tileKey: "tileKey_1_1",
-    antImagePath: null,
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
   ),
   Tile(
     tileKey: "tileKey_1_2",
-    antImagePath: null,
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
   ),
   Tile(
     tileKey: "tileKey_1_3",
-    antImagePath: null,
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
   ),
   Tile(
     tileKey: "tileKey_1_4",
-    antImagePath: null,
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
@@ -83,6 +74,7 @@ final tilesProvider = Provider<List<Tile>>((ref) {
 });
 
 final tilesExitProvider = Provider<List<Tile>>((ref) {
+  final allTiles = ref.watch(gameStateProvider).tiles;
   return allTiles.where((tile)=> tile.tileKey!.split('_')[2]=='0').toList();
 
 });
@@ -95,27 +87,9 @@ final tilesWithAntsProvider = Provider((ref) {
 
 
 
-final tunnelFromTilesProvider = Provider((ref) {
-    Map<int, List<Tile>> tunnels = {};
-    var tiles = ref.watch(gameStateProvider).tiles;
-
-
-    for (Tile tile in tiles) {
-      int row = int.parse(tile.tileKey!.split('_')[1]);
-
-      if (!tunnels.containsKey(row)) {
-        tunnels[row] = [];
-      }
-      tunnels[row]!.add(tile);
-    }
-
-    return tunnels;
-
-});
-
 
 final tileEntranceForBeesProvider = Provider((ref) {
-  Map<int, List<Tile>> tunnels = ref.read(tunnelFromTilesProvider);
+  Map<int, List<Tile>> tunnels = ref.read(gameStateProvider.notifier).updateTilesAndTunnel();
 
   List<Tile> endTiles = [];
   for (var tiles in tunnels.values) {
