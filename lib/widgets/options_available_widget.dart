@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:unit_test_game/providers/count_down_provider.dart';
 import 'package:unit_test_game/providers/game_state_provider.dart';
+import 'package:unit_test_game/providers/providers.dart';
 
 class OptionsAvailableWidget extends ConsumerWidget {
   const OptionsAvailableWidget({super.key});
@@ -35,17 +35,23 @@ class OptionsAvailableWidget extends ConsumerWidget {
           ),
           margin: const EdgeInsets.all(8),
           padding: const EdgeInsets.all(8),
-          child: RichText(
-            text: TextSpan(
-              children: [
-                const TextSpan(
-                    text: "Timer:  ", style: TextStyle(color: Colors.white)),
-                TextSpan(
-                    text: ref.watch(countdownProvider).toString(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white))
-              ],
-            ),
+          child: StreamBuilder<Object>(
+            stream: ref.watch(customTimerProvider).timeStream,
+            initialData: 0,
+            builder: (context, snapshot) {
+              return RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                        text: "Timer:  ", style: TextStyle(color: Colors.white)),
+                    TextSpan(
+                        text: snapshot.data.toString(),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))
+                  ],
+                ),
+              );
+            }
           ),
         ),
         Container(

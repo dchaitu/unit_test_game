@@ -213,7 +213,7 @@ class _$TileImpl extends _Tile {
 
   @override
   String toString() {
-    return 'Tile(tileKey: $tileKey, ant: $ant, groundTileImgUrl: $groundTileImgUrl, skyTileImgUrl: $skyTileImgUrl, bees: $bees, nextTile: $nextTile)';
+    return 'Tile(tileKey: $tileKey, ant: $ant, groundTileImgUrl: $groundTileImgUrl, skyTileImgUrl: $skyTileImgUrl, bees: $bees, nextTile: ${nextTile?.tileKey})';
   }
 
   @override

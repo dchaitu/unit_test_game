@@ -17,5 +17,10 @@ class Ant {
     return Ant(currHealth: currHealth ?? this.currHealth);
   }
 
+  @override
+  String toString() {
+    return '($name : health $currHealth)';
+  }
+
 
 }

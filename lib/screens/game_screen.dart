@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:unit_test_game/constants/image_assets.dart';
 import 'package:unit_test_game/game_logic.dart';
-import 'package:unit_test_game/providers/count_down_provider.dart';
 import 'package:unit_test_game/providers/game_state_provider.dart';
+import 'package:unit_test_game/providers/providers.dart';
 import 'package:unit_test_game/widgets/available_ants_widget.dart';
 import 'package:unit_test_game/widgets/background_widget.dart';
 import 'package:unit_test_game/widgets/game_status_widget.dart';
@@ -11,7 +11,15 @@ import 'package:unit_test_game/widgets/hive_widget.dart';
 import 'package:unit_test_game/widgets/options_available_widget.dart';
 import 'package:unit_test_game/widgets/tile_widget.dart';
 
-import '../models/freezed_models/tile/tile.dart';
+import 'package:unit_test_game/models/freezed_models/tile/tile.dart';
+
+
+/// In GameScreen we build types of ants Available,  
+/// Closing the UI, Timer, Food Available   
+/// Tunnels with tiles
+/// Hive with Ants
+/// In the state initialization we are calling gameLogic only once
+/// A button Show Details to print current state
 
 class GameScreen extends ConsumerStatefulWidget {
   const GameScreen({super.key});
@@ -27,9 +35,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(countdownProvider.notifier).startCountdown();
-    tunnels =ref.read(gameStateProvider.notifier).updateTilesAndTunnel();
-    gameCoreLogic(ref);
+    // ref.read(countdownProvider.notifier).startCountdown();
+    ref.read(customTimerProvider).startTimer();
+    tunnels =ref.read(gameStateProvider).tunnels;
+    runGame(ref);
   }
 
   @override
@@ -39,7 +48,6 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(gameStateProvider).tiles;
 
     return Scaffold(
       body: BackgroundWidget(
@@ -93,14 +101,15 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   }
 
   Widget createGameView(WidgetRef ref) {
-    tunnels = ref.read(gameStateProvider.notifier).updateTilesAndTunnel();
-
+    /// Building tunnel taken from Map into a Widget 
+    
+    var tunnelEntries = ref.watch(gameStateProvider).tunnels.entries;
     var tunnelGrid = Column(
-      children: tunnels.entries
+      children: tunnelEntries
           .map(
-            (tiles) => Container(
+            (tunnel) => Container(
               padding: const EdgeInsets.all(8),
-              child: createTunnel(tiles.value),
+              child: createTunnel(tunnel.value),
             ),
           )
           .toList(),

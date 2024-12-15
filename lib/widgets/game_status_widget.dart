@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:unit_test_game/providers/game_state_provider.dart';
+import 'package:unit_test_game/widgets/alert_widget.dart';
 
 import '../models/freezed_models/tile/tile.dart';
 
@@ -18,31 +19,19 @@ bool isBeesPresentInTheTunnels(WidgetRef ref) {
 
 Widget gameStatusWidget(WidgetRef ref) {
   if (ref.read(gameStateProvider).gameStatus.beesWon) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      height: 200,
-      width: 200,
-      color: Colors.redAccent,
+    return Positioned(
+      top: -100,
       child: const Center(
-        child: Text(
-          "Game Completed Bees Won ",
-          style: TextStyle(color: Colors.white, fontSize: 24),
-        ),
+        child: AlertWidget( result: "Bees Won",)
       ),
     );
   } else if (ref.read(gameStateProvider).gameStatus.antsWon &&
       ref.watch(gameStateProvider).beesInHive <= 0 &&
       isBeesPresentInTheTunnels(ref)) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      height: 200,
-      width: 200,
-      color: Colors.green,
+    return Positioned(
+      top: -100,
       child: const Center(
-        child: Text(
-          "Game Completed Ants Won",
-          style: TextStyle(color: Colors.white, fontSize: 24),
-        ),
+          child: AlertWidget( result: "Ants Won",)
       ),
     );
   }

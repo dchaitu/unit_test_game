@@ -12,6 +12,7 @@ class GameState {
   int foodAvailable;
   String? selectedAntUrl;
   int beesInHive;
+  Map<int, List<Tile>> get tunnels => createTilesAndTunnel();
 
   GameState(
       {required this.tiles,
@@ -35,6 +36,31 @@ class GameState {
       beesInHive: beesInHive ?? this.beesInHive,
     );
   }
+
+  Map<int, List<Tile>> createTilesAndTunnel()
+  {
+    Map<int, List<Tile>> tunnels = {};
+    List<Tile> tiles = this.tiles;
+
+
+    for (int i=0; i< tiles.length;i++) {
+      int row = int.parse(tiles[i].tileKey!.split('_')[1]);
+
+      if (!tunnels.containsKey(row)) {
+        tunnels[row] = [];
+      }
+      tunnels[row]!.add(tiles[i]);
+      if(i+1<tiles.length) {
+        int nextTileRow = int.parse(tiles[i + 1].tileKey!.split('_')[1]);
+        if (row == nextTileRow) {
+          tiles[i] = tiles[i].copyWith(nextTile: tiles[i + 1]);
+        }
+      }
+    }
+
+    return tunnels;
+  }
+
 }
 
 class GameStatus {
@@ -82,15 +108,16 @@ class GameStateNotifier extends StateNotifier<GameState> {
     state = state.copyWith(tiles: newTiles);
   }
 
-  void moveBeeForward(WidgetRef ref) {
-    Map<int, List<Tile>> tunnels = ref.read(gameStateProvider.notifier).updateTilesAndTunnel();
+  void moveBeeForward() {
+    var tunnels = state.tunnels;
     for (var tiles in tunnels.values) {
-      moveForwardEachTunnel(tiles);
+      print("updated Tiles ${tiles}");
+      moveBeeForwardEachTunnel(tiles);
     }
   }
 
-  moveForwardEachTunnel(List<Tile> gameTiles) {
-    List<Tile> updatedTiles = state.tiles;
+  void moveBeeForwardEachTunnel(List<Tile> gameTiles) {
+    List<Tile> updatedTiles = [...state.tiles];
 
     for (int i = 1; i < gameTiles.length; i++) {
       if (gameTiles[i].isBeePresent && !gameTiles[i].isAntPresent) {
@@ -98,7 +125,7 @@ class GameStateNotifier extends StateNotifier<GameState> {
         var presentBees = gameTiles[i].bees?.sublist(0,gameTiles[i].bees!.length - 1);
         gameTiles[i] = gameTiles[i].copyWith(bees: presentBees);
         // Adding to next Tile
-        gameTiles[i - 1] = gameTiles[i - 1].copyWith( bees: [...gameTiles[i - 1].bees!, bee]);
+        gameTiles[i - 1] = gameTiles[i - 1].copyWith( bees: [...?gameTiles[i - 1].bees, bee]);
         updatedTiles = updatedTiles.map((tile) {
           if (tile.tileKey == gameTiles[i].tileKey)
             return gameTiles[i];
@@ -106,10 +133,10 @@ class GameStateNotifier extends StateNotifier<GameState> {
             return gameTiles[i - 1];
           return tile;
         }).toList();
-
-        state = state.copyWith(tiles: updatedTiles);
+        
       }
     }
+    state = state.copyWith(tiles: updatedTiles);
   }
 
   void addBeeToEnd(WidgetRef ref) {
@@ -156,21 +183,29 @@ class GameStateNotifier extends StateNotifier<GameState> {
     for (int i = 0; i < gameTiles.length; i++) {
       if (gameTiles[i].isAntPresent == true &&
           gameTiles[i].isBeePresent == true) {
+        // multiple bees present
+        print("gameTiles[i].noOfBees ${gameTiles[i].noOfBees}");
         for(int j=0;j< gameTiles[i].noOfBees;j++) {
             if(gameTiles[i].ant!=null) {
-            Ant? newAnt = reduceHealth(gameTiles[i].ant!);
-            gameTiles[i] = gameTiles[i].copyWith(ant: newAnt);
-            if (gameTiles[i].ant != null && gameTiles[i].ant!.currHealth <= 0) {
+              Ant? currentAnt = gameTiles[i].ant!;
+              Ant? newAnt = reduceHealth(currentAnt);
+
+            if (newAnt == null || newAnt.currHealth <= 0) {
+              print("Removing ant from tile: ${gameTiles[i].tileKey}");
               gameTiles[i] = gameTiles[i].copyWith(ant: null);
+              state = state.copyWith(tiles: gameTiles);
+              print("bee sting:- ${state.tiles}");
+            } else {
+              gameTiles[i] = gameTiles[i].copyWith(ant: newAnt);
             }
-          }
+            }
         }
       }
-      state = state.copyWith(tiles: gameTiles);
     }
+    state = state.copyWith(tiles: gameTiles);
   }
 
-  Tile? nearestBee(Tile tile) {
+  Tile? nearestBeeToAnt(Tile tile) {
     int currDis = 0;
     int lowerBound;
     int upperBound;
@@ -203,9 +238,9 @@ class GameStateNotifier extends StateNotifier<GameState> {
     return null;
   }
 
-  void antAttack(Tile tile) {
+  void antAttackBees(Tile tile) {
     var gameTiles = state.tiles;
-    Tile? currTile = nearestBee(tile);
+    Tile? currTile = nearestBeeToAnt(tile);
 
     if (currTile != null) {
       var bees = currTile.bees ?? [];
@@ -224,6 +259,33 @@ class GameStateNotifier extends StateNotifier<GameState> {
         }).toList();
 
         state = state.copyWith(tiles: gameTiles);
+    }
+  }
+
+
+  void antsAttackBees() {
+      var gameTiles = state.tiles;
+      var tilesWithAnts = state.tiles.where((tile) => tile.isAntPresent).toList();
+      for (Tile tile in tilesWithAnts) {
+      Tile? currTile = nearestBeeToAnt(tile);
+      if (currTile != null) {
+        var bees = currTile.bees ?? [];
+        Bee? bee = bees.isNotEmpty ? bees.last : null;
+
+        if (bee != null) {
+          bee = reduceBeeHealth(bee);
+          List<Bee> updatedBees = bees.sublist(0, bees.length - 1);
+          if (bee.currHealth > 0) {
+            updatedBees.add(bee);
+          }
+          currTile = currTile.copyWith(bees: updatedBees);
+        }
+        gameTiles = gameTiles.map((t) {
+          return t.tileKey == currTile!.tileKey ? currTile : t;
+        }).toList();
+
+        state = state.copyWith(tiles: gameTiles);
+      }
     }
   }
 
@@ -261,30 +323,6 @@ class GameStateNotifier extends StateNotifier<GameState> {
     }
 
     state = state.copyWith(tiles: gameTiles);
-  }
-
-  Map<int, List<Tile>> updateTilesAndTunnel()
-  {
-    Map<int, List<Tile>> tunnels = {};
-    List<Tile> tiles = state.tiles;
-
-
-    for (int i=0; i< tiles.length;i++) {
-      int row = int.parse(tiles[i].tileKey!.split('_')[1]);
-
-      if (!tunnels.containsKey(row)) {
-        tunnels[row] = [];
-      }
-      tunnels[row]!.add(tiles[i]);
-      if(i+1<tiles.length) {
-        int nextTileRow = int.parse(tiles[i + 1].tileKey!.split('_')[1]);
-        if (row == nextTileRow) {
-          tiles[i] = tiles[i].copyWith(nextTile: tiles[i + 1]);
-        }
-      }
-    }
-
-    return tunnels;
   }
 
 
