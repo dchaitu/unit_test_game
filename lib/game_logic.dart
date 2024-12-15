@@ -33,11 +33,9 @@ void runGame(WidgetRef ref) {
 Future<void> gameStateLogic(WidgetRef ref, Timer timer) async {
   bool isAntsWon = false;
   bool isBeesWon = false;
-  var isBeeReachedLast = ref.read(gameStateProvider.notifier);
   var isGameCompleted = ref.read(gameStateProvider).gameStatus.gameCompleted;
 
   if (isGameCompleted) {
-    ref.read(countdownProvider);
     ref.read(customTimerProvider).stopTimer();
 
     timer.cancel();
@@ -66,7 +64,7 @@ Future<void> gameStateLogic(WidgetRef ref, Timer timer) async {
 
 
   if (checkBeesReachedTheEnd(ref) && !isBeesWon) {
-    isBeeReachedLast.beesWonGameState();
+    ref.read(gameStateProvider.notifier).beesWonGameState();
     print("Bees Won");
     isBeesWon = true;
     isGameCompleted = ref.read(gameStateProvider).gameStatus.gameCompleted;
@@ -74,7 +72,7 @@ Future<void> gameStateLogic(WidgetRef ref, Timer timer) async {
 
   // Bee not present in Game Ants Won
   if (!checkBeesPresentInTheGame(ref) && !isAntsWon) {
-    isBeeReachedLast.antsWonGameState();
+    ref.read(gameStateProvider.notifier).antsWonGameState();
     isAntsWon = true;
     isGameCompleted = ref.read(gameStateProvider).gameStatus.gameCompleted;
   }

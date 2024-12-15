@@ -19,20 +19,14 @@ bool isBeesPresentInTheTunnels(WidgetRef ref) {
 
 Widget gameStatusWidget(WidgetRef ref) {
   if (ref.read(gameStateProvider).gameStatus.beesWon) {
-    return Positioned(
-      top: -100,
-      child: const Center(
-        child: AlertWidget( result: "Bees Won",)
-      ),
+    return const Center(
+      child: AlertWidget( result: "Bees Won",)
     );
   } else if (ref.read(gameStateProvider).gameStatus.antsWon &&
       ref.watch(gameStateProvider).beesInHive <= 0 &&
       isBeesPresentInTheTunnels(ref)) {
-    return Positioned(
-      top: -100,
-      child: const Center(
-          child: AlertWidget( result: "Ants Won",)
-      ),
+    return const Center(
+        child: AlertWidget( result: "Ants Won",)
     );
   }
   return const SizedBox();
