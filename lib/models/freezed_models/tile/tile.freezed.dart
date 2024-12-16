@@ -16,12 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Tile {
-  String? get tileKey => throw _privateConstructorUsedError;
   Ant? get ant => throw _privateConstructorUsedError;
+  String get tileKey => throw _privateConstructorUsedError;
   String get groundTileImgUrl => throw _privateConstructorUsedError;
   String get skyTileImgUrl => throw _privateConstructorUsedError;
   List<Bee>? get bees => throw _privateConstructorUsedError;
-  Tile? get nextTile => throw _privateConstructorUsedError;
 
   /// Create a copy of Tile
   /// with the given fields replaced by the non-null parameter values.
@@ -35,14 +34,11 @@ abstract class $TileCopyWith<$Res> {
       _$TileCopyWithImpl<$Res, Tile>;
   @useResult
   $Res call(
-      {String? tileKey,
-      Ant? ant,
+      {Ant? ant,
+      String tileKey,
       String groundTileImgUrl,
       String skyTileImgUrl,
-      List<Bee>? bees,
-      Tile? nextTile});
-
-  $TileCopyWith<$Res>? get nextTile;
+      List<Bee>? bees});
 }
 
 /// @nodoc
@@ -60,22 +56,21 @@ class _$TileCopyWithImpl<$Res, $Val extends Tile>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tileKey = freezed,
     Object? ant = freezed,
+    Object? tileKey = null,
     Object? groundTileImgUrl = null,
     Object? skyTileImgUrl = null,
     Object? bees = freezed,
-    Object? nextTile = freezed,
   }) {
     return _then(_value.copyWith(
-      tileKey: freezed == tileKey
-          ? _value.tileKey
-          : tileKey // ignore: cast_nullable_to_non_nullable
-              as String?,
       ant: freezed == ant
           ? _value.ant
           : ant // ignore: cast_nullable_to_non_nullable
               as Ant?,
+      tileKey: null == tileKey
+          ? _value.tileKey
+          : tileKey // ignore: cast_nullable_to_non_nullable
+              as String,
       groundTileImgUrl: null == groundTileImgUrl
           ? _value.groundTileImgUrl
           : groundTileImgUrl // ignore: cast_nullable_to_non_nullable
@@ -88,25 +83,7 @@ class _$TileCopyWithImpl<$Res, $Val extends Tile>
           ? _value.bees
           : bees // ignore: cast_nullable_to_non_nullable
               as List<Bee>?,
-      nextTile: freezed == nextTile
-          ? _value.nextTile
-          : nextTile // ignore: cast_nullable_to_non_nullable
-              as Tile?,
     ) as $Val);
-  }
-
-  /// Create a copy of Tile
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TileCopyWith<$Res>? get nextTile {
-    if (_value.nextTile == null) {
-      return null;
-    }
-
-    return $TileCopyWith<$Res>(_value.nextTile!, (value) {
-      return _then(_value.copyWith(nextTile: value) as $Val);
-    });
   }
 }
 
@@ -118,15 +95,11 @@ abstract class _$$TileImplCopyWith<$Res> implements $TileCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? tileKey,
-      Ant? ant,
+      {Ant? ant,
+      String tileKey,
       String groundTileImgUrl,
       String skyTileImgUrl,
-      List<Bee>? bees,
-      Tile? nextTile});
-
-  @override
-  $TileCopyWith<$Res>? get nextTile;
+      List<Bee>? bees});
 }
 
 /// @nodoc
@@ -141,22 +114,21 @@ class __$$TileImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tileKey = freezed,
     Object? ant = freezed,
+    Object? tileKey = null,
     Object? groundTileImgUrl = null,
     Object? skyTileImgUrl = null,
     Object? bees = freezed,
-    Object? nextTile = freezed,
   }) {
     return _then(_$TileImpl(
-      tileKey: freezed == tileKey
-          ? _value.tileKey
-          : tileKey // ignore: cast_nullable_to_non_nullable
-              as String?,
       ant: freezed == ant
           ? _value.ant
           : ant // ignore: cast_nullable_to_non_nullable
               as Ant?,
+      tileKey: null == tileKey
+          ? _value.tileKey
+          : tileKey // ignore: cast_nullable_to_non_nullable
+              as String,
       groundTileImgUrl: null == groundTileImgUrl
           ? _value.groundTileImgUrl
           : groundTileImgUrl // ignore: cast_nullable_to_non_nullable
@@ -169,10 +141,6 @@ class __$$TileImplCopyWithImpl<$Res>
           ? _value._bees
           : bees // ignore: cast_nullable_to_non_nullable
               as List<Bee>?,
-      nextTile: freezed == nextTile
-          ? _value.nextTile
-          : nextTile // ignore: cast_nullable_to_non_nullable
-              as Tile?,
     ));
   }
 }
@@ -181,19 +149,18 @@ class __$$TileImplCopyWithImpl<$Res>
 
 class _$TileImpl extends _Tile {
   _$TileImpl(
-      {this.tileKey,
-      this.ant,
+      {this.ant,
+      required this.tileKey,
       required this.groundTileImgUrl,
       required this.skyTileImgUrl,
-      final List<Bee>? bees,
-      this.nextTile})
+      final List<Bee>? bees})
       : _bees = bees,
         super._();
 
   @override
-  final String? tileKey;
-  @override
   final Ant? ant;
+  @override
+  final String tileKey;
   @override
   final String groundTileImgUrl;
   @override
@@ -209,11 +176,8 @@ class _$TileImpl extends _Tile {
   }
 
   @override
-  final Tile? nextTile;
-
-  @override
   String toString() {
-    return 'Tile(tileKey: $tileKey, ant: $ant, groundTileImgUrl: $groundTileImgUrl, skyTileImgUrl: $skyTileImgUrl, bees: $bees, nextTile: ${nextTile?.tileKey})';
+    return 'Tile(ant: $ant, tileKey: $tileKey, groundTileImgUrl: $groundTileImgUrl, skyTileImgUrl: $skyTileImgUrl, bees: $bees)';
   }
 
   @override
@@ -221,20 +185,18 @@ class _$TileImpl extends _Tile {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TileImpl &&
-            (identical(other.tileKey, tileKey) || other.tileKey == tileKey) &&
             (identical(other.ant, ant) || other.ant == ant) &&
+            (identical(other.tileKey, tileKey) || other.tileKey == tileKey) &&
             (identical(other.groundTileImgUrl, groundTileImgUrl) ||
                 other.groundTileImgUrl == groundTileImgUrl) &&
             (identical(other.skyTileImgUrl, skyTileImgUrl) ||
                 other.skyTileImgUrl == skyTileImgUrl) &&
-            const DeepCollectionEquality().equals(other._bees, _bees) &&
-            (identical(other.nextTile, nextTile) ||
-                other.nextTile == nextTile));
+            const DeepCollectionEquality().equals(other._bees, _bees));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, tileKey, ant, groundTileImgUrl,
-      skyTileImgUrl, const DeepCollectionEquality().hash(_bees), nextTile);
+  int get hashCode => Object.hash(runtimeType, ant, tileKey, groundTileImgUrl,
+      skyTileImgUrl, const DeepCollectionEquality().hash(_bees));
 
   /// Create a copy of Tile
   /// with the given fields replaced by the non-null parameter values.
@@ -247,26 +209,23 @@ class _$TileImpl extends _Tile {
 
 abstract class _Tile extends Tile {
   factory _Tile(
-      {final String? tileKey,
-      final Ant? ant,
+      {final Ant? ant,
+      required final String tileKey,
       required final String groundTileImgUrl,
       required final String skyTileImgUrl,
-      final List<Bee>? bees,
-      final Tile? nextTile}) = _$TileImpl;
+      final List<Bee>? bees}) = _$TileImpl;
   _Tile._() : super._();
 
   @override
-  String? get tileKey;
-  @override
   Ant? get ant;
+  @override
+  String get tileKey;
   @override
   String get groundTileImgUrl;
   @override
   String get skyTileImgUrl;
   @override
   List<Bee>? get bees;
-  @override
-  Tile? get nextTile;
 
   /// Create a copy of Tile
   /// with the given fields replaced by the non-null parameter values.

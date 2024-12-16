@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:unit_test_game/constants/get_ants.dart';
 
 import 'package:unit_test_game/constants/image_assets.dart';
 import 'package:unit_test_game/models/custom_time.dart';
@@ -86,30 +87,20 @@ final tilesWithAntsProvider = Provider((ref) {
   return allTiles.where((tile) => tile.isAntPresent==true).toList();
 });
 
-final tileProvider = Provider.family<Tile, String>((ref, tileKey) {
-  final gameState = ref.watch(gameStateProvider);
-  return gameState.tiles.firstWhere((tile) => tile.tileKey == tileKey);
-});
 
 
 final tileEntranceForBeesProvider = Provider((ref) {
   Map<int, List<Tile>> tunnels = ref.watch(gameStateProvider).tunnels;
-
   List<Tile> endTiles = [];
-  for (var tiles in tunnels.values) {
-
-    for (int i = 0; i < tiles.length; i++) {
-      if (tiles[i].nextTile == null) {
-        endTiles.add(tiles[i]);
-      }
-    }
+  for (var key in tunnels.keys) {
+    endTiles.add(tunnels[key]!.last);
   }
 
 
   return endTiles;
 });
 
-final customTimerProvider = Provider<CustomTimer>((ref) {
+final customTimerProvider = Provider.autoDispose<CustomTimer>((ref) {
   final timer = CustomTimer();
   ref.onDispose(timer.dispose); // Ensure resources are cleaned up
   return timer;

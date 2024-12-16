@@ -10,12 +10,11 @@ part 'tile.freezed.dart';
 @freezed
 class Tile with _$Tile {
   factory Tile({
-    String? tileKey,
     Ant? ant,
+    required String tileKey,
     required String groundTileImgUrl,
     required String skyTileImgUrl,
     List<Bee>? bees,
-    Tile? nextTile,
   }) = _Tile;
   // factory Tile.fromJson(Map<String, dynamic> json) => _$TileFromJson(json);
 
