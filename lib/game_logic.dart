@@ -57,9 +57,9 @@ Future<void> gameStateLogic(WidgetRef ref, Timer timer) async {
 
   ref.read(gameStateProvider.notifier).moveBeeForward();
 
-  await Future.delayed(const Duration(seconds: 2));
   ref.read(gameStateProvider.notifier).beeStingAnt();
   print("Ant Attack $id: ${DateTime.now()}");
+  await Future.delayed(const Duration(seconds: 2));
   ref.read(gameStateProvider.notifier).antsAttackBees();
 
 
