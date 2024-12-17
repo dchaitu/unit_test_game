@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:unit_test_game/providers/count_down_provider.dart';
 import 'package:unit_test_game/providers/game_state_provider.dart';
 import 'package:unit_test_game/providers/providers.dart';
 
@@ -49,7 +48,7 @@ Future<void> gameStateLogic(WidgetRef ref, Timer timer) async {
   await Future.delayed(const Duration(seconds: 2));
   if (ref.read(gameStateProvider).beesInHive > 0) {
     print("Add Bee to End $id: ${DateTime.now()}");
-    ref.read(gameStateProvider.notifier).addBeeToEnd(ref);
+    ref.read(gameStateProvider.notifier).addBeeToEnd();
   }
 
   await Future.delayed(const Duration(seconds: 2));

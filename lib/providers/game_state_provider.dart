@@ -48,14 +48,7 @@ class GameState {
         tunnels[row] = [];
       }
       tunnels[row]!.add(tiles[i]);
-      // if (i + 1 < tiles.length) {
-      //   int nextTileRow = int.parse(tiles[i + 1].tileKey!.split('_')[1]);
-      //   if (row == nextTileRow) {
-      //     tiles[i] = tiles[i].copyWith(nextTile: tiles[i + 1]);
-      //   }
-      // }
     }
-    // print(tunnels);
     return tunnels;
   }
 }
@@ -108,7 +101,6 @@ class GameStateNotifier extends StateNotifier<GameState> {
   void moveBeeForward() {
     var tunnels = state.tunnels;
     for (var tiles in tunnels.values) {
-      // print("updated Tiles ${tiles}");
       moveBeeForwardEachTunnel(tiles);
     }
   }
@@ -116,14 +108,11 @@ class GameStateNotifier extends StateNotifier<GameState> {
   void moveBeeForwardEachTunnel(List<Tile> gameTiles) {
     List<Tile> updatedTiles = [...state.tiles];
     for (int i = 0; i < state.tiles.length; i++) {
-      // print("MU: Tile ${state.tiles[i].tileKey} Bees: ${state.tiles[i].noOfBees} Ant Health: ${state.tiles[i].ant?.currHealth} ${state.tiles[i].isAntPresent}");
     }
 
 
     for (int i = 1; i < gameTiles.length; i++) {
-      // print("M: Tile ${gameTiles[i].tileKey} Bees: ${gameTiles[i].noOfBees} Ant Health: ${gameTiles[i].ant?.currHealth} ${gameTiles[i].isAntPresent}");
       if (gameTiles[i].isBeePresent && !gameTiles[i].isAntPresent) {
-        // Bee bee = gameTiles[i].bees!.last;
         var presentBees =
             gameTiles[i].bees?.sublist(0, gameTiles[i].bees!.length);
         gameTiles[i] = gameTiles[i].copyWith(bees: []);
@@ -142,12 +131,15 @@ class GameStateNotifier extends StateNotifier<GameState> {
     state = state.copyWith(tiles: updatedTiles);
   }
 
-  void addBeeToEnd(WidgetRef ref) {
+  void addBeeToEnd() {
     print("Calling bees ${DateTime.now()}");
 
     List<Tile> updatedTiles = state.tiles;
-    var endTiles = ref.read(tileEntranceForBeesProvider);
-    print("endTiles $endTiles");
+    List<Tile> endTiles = [];
+    for (var key in state.tunnels.keys) {
+      endTiles.add(state.tunnels[key]!.last);
+    }
+
     updatedTiles = updatedTiles.map((oldTile) {
       if (endTiles.any((endTile) => endTile.tileKey == oldTile.tileKey)) {
         return oldTile.copyWith(bees: <Bee>[...oldTile.bees!, Bee()]);
@@ -183,24 +175,15 @@ class GameStateNotifier extends StateNotifier<GameState> {
     List<Tile> gameTiles = [...state.tiles];
     for (int i = 0; i < gameTiles.length; i++) {
       if (gameTiles[i].isAntPresent && gameTiles[i].isBeePresent) {
-        print(
-            "Before Attack Tile ${gameTiles[i].tileKey} Bees: ${gameTiles[i].noOfBees} Ant Health: ${gameTiles[i].ant?.currHealth} ${gameTiles[i].isAntPresent}");
         Ant? newAnt = reduceHealth(gameTiles[i].ant!, gameTiles[i].noOfBees);
         if (newAnt != null && newAnt.currHealth <= 0) {
           throw Error();
         }
         gameTiles[i] = gameTiles[i].copyWith(ant: newAnt);
-        print(
-            "After Attack Tile ${gameTiles[i].tileKey} Bees: ${gameTiles[i].noOfBees} Ant Health: ${gameTiles[i].ant?.currHealth} ${gameTiles[i].isAntPresent}");
-      } else {
-        print("Tile ${gameTiles[i].tileKey} Bees: ${gameTiles[i].noOfBees} Ant Health: ${gameTiles[i].ant?.currHealth} ${gameTiles[i].isAntPresent}");
-
-      }
+       }
     }
     state = state.copyWith(tiles: gameTiles);
-    for (int i = 0; i < state.tiles.length; i++) {
-      print("BA: Tile ${state.tiles[i].tileKey} Bees: ${state.tiles[i].noOfBees} Ant Health: ${state.tiles[i].ant?.currHealth} ${state.tiles[i].isAntPresent}");
-    }
+
   }
 
   Tile? nearestBeeToAnt(Tile currentTile) {
@@ -225,11 +208,8 @@ class GameStateNotifier extends StateNotifier<GameState> {
       upperBound = Ant.upper;
     }
 
-    // Tile? currentTile = tile;
     state = state.copyWith(tiles: updatedTiles);
-    // TODO: REMOVE nextTile
-    while (
-        (lowerBound <= currDis && currDis <= upperBound)) {
+    while (lowerBound <= currDis && currDis <= upperBound) {
 
       int row = int.parse(currentTile.tileKey.split('_')[1]);
       int col = int.parse(currentTile.tileKey.split('_')[2]);
@@ -249,15 +229,9 @@ class GameStateNotifier extends StateNotifier<GameState> {
 
 
   void antsAttackBees() {
-    for (int i = 0; i < state.tiles.length; i++) {
-      print("AB1: Tile ${state.tiles[i].tileKey} Bees: ${state.tiles[i].noOfBees} Ant Health: ${state.tiles[i].ant?.currHealth} ${state.tiles[i].isAntPresent}");
-    }
-    // TODO: There is a bug is in the attack check once
+
     var gameTiles = state.tiles;
     var tilesWithAnts = state.tiles.where((tile) => tile.isAntPresent).toList();
-    for (int i = 0; i < tilesWithAnts.length; i++) {
-      print("tilesWithAnts: Tile ${tilesWithAnts[i].tileKey} Bees: ${tilesWithAnts[i].noOfBees} Ant Health: ${tilesWithAnts[i].ant?.currHealth} ${tilesWithAnts[i].isAntPresent}");
-    }
     for (Tile tile in tilesWithAnts) {
       Tile? currTile = nearestBeeToAnt(tile);
       if (currTile != null) {
@@ -270,7 +244,6 @@ class GameStateNotifier extends StateNotifier<GameState> {
           if (bee!.currHealth > 0) {
             updatedBees.add(bee);
           }
-          print("Before update currTile ${currTile.tileKey} Bees: ${currTile.noOfBees} Ant Health: ${currTile.ant?.currHealth} ${currTile.isAntPresent}");
           currTile = currTile.copyWith(bees: updatedBees);
         }
 
@@ -280,9 +253,6 @@ class GameStateNotifier extends StateNotifier<GameState> {
 
         state = state.copyWith(tiles: gameTiles);
       }
-    }
-    for (int i = 0; i < state.tiles.length; i++) {
-      print("AB2: Tile ${state.tiles[i].tileKey} Bees: ${state.tiles[i].noOfBees} Ant Health: ${state.tiles[i].ant?.currHealth} ${state.tiles[i].isAntPresent}");
     }
   }
 
