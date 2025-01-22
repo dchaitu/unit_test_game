@@ -80,7 +80,7 @@ final gameStateProvider =
     gameState: GameState(
         tiles: ref.watch(tilesProvider),
         gameStatus: GameStatus(),
-        foodAvailable: 50,
+        foodAvailable: 30,
         beesInHive: 10),
   );
 });
@@ -302,6 +302,18 @@ class GameStateNotifier extends StateNotifier<GameState> {
       }
     }
     return null;
+  }
+
+
+
+  void resetGameState()
+  {
+    state = state.copyWith(
+      tiles: allTiles.map((tile) => tile.copyWith(bees: [], ant: null)).toList(),
+      gameStatus: GameStatus(),
+      foodAvailable: 30,
+      beesInHive: 10,
+    );
   }
 
 }

@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:unit_test_game/constants/get_ants.dart';
 
 import 'package:unit_test_game/constants/image_assets.dart';
 import 'package:unit_test_game/models/custom_time.dart';
@@ -77,7 +76,7 @@ final tilesProvider = Provider<List<Tile>>((ref) {
 
 final tilesExitProvider = Provider<List<Tile>>((ref) {
   final allTiles = ref.watch(gameStateProvider).tiles;
-  return allTiles.where((tile)=> tile.tileKey!.split('_')[2]=='0').toList();
+  return allTiles.where((tile)=> tile.tileKey.split('_')[2]=='0').toList();
 
 });
 

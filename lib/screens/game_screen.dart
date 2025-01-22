@@ -76,11 +76,6 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                       Expanded(child: createGameView(ref)),
                     ],
                   ),
-                  ElevatedButton(
-                    onPressed: () =>
-                        ref.read(gameStateProvider.notifier).showTileDetails(),
-                    child: const Text("Show Details"),
-                  ),
                   gameStatusWidget(ref),
                 ],
               ),
