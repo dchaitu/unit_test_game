@@ -46,7 +46,7 @@ class StartScreen extends StatelessWidget {
                     style: TextStyle(color: Colors.black, fontSize: 17)),
               ),
               onPressed: () {
-                Timer(Duration(milliseconds: 5), () {
+                Timer(const Duration(milliseconds: 5), () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -54,7 +54,7 @@ class StartScreen extends StatelessWidget {
                 });
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xffFFEECC),
+                backgroundColor: const Color(0xffFFEECC),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
@@ -62,7 +62,9 @@ class StartScreen extends StatelessWidget {
             ),
           )
         ],
-      )),
+      ),
+        gameScreenWidth: width*0.9,
+        gameScreenHeight: height,),
     );
   }
 }

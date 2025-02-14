@@ -20,13 +20,13 @@ bool isBeesPresentInTheTunnels(WidgetRef ref) {
 Widget gameStatusWidget(WidgetRef ref) {
   if (ref.read(gameStateProvider).gameStatus.beesWon) {
     return const Center(
-      child: AlertWidget( result: "Bees Won",)
+      child: AlertWidget(result: "Bees Won", bgColor: Colors.redAccent,)
     );
   } else if (ref.read(gameStateProvider).gameStatus.antsWon &&
       ref.watch(gameStateProvider).beesInHive <= 0 &&
       isBeesPresentInTheTunnels(ref)) {
     return const Center(
-        child: AlertWidget( result: "Ants Won",)
+        child: AlertWidget(result: "Ants Won",bgColor: Colors.lightGreen,)
     );
   }
   return const SizedBox();

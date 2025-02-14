@@ -48,6 +48,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: BackgroundWidget(
@@ -55,20 +57,23 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           children: [
             Positioned(
               top: 0,
-              left: 300,
+              left: width*(0.04),
               right: 0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const OptionsAvailableWidget(),
-                  const FittedBox(
-                    fit: BoxFit.contain,
-                    child: AvailableAntsWidget(
-                      antImgUrls: [
-                        ImageAssets.antLongthrower,
-                        ImageAssets.antThrower,
-                        ImageAssets.antShortthrower,
-                      ],
+                  Center(child: const OptionsAvailableWidget()),
+                  SizedBox(
+                    height: height*(0.2 ),
+                    child: const FittedBox(
+                      fit: BoxFit.contain,
+                      child: AvailableAntsWidget(
+                        antImgUrls: [
+                          ImageAssets.antLongthrower,
+                          ImageAssets.antThrower,
+                          ImageAssets.antShortthrower,
+                        ],
+                      ),
                     ),
                   ),
                   Row(
@@ -76,21 +81,24 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                       Expanded(child: createGameView(ref)),
                     ],
                   ),
-                  gameStatusWidget(ref),
+
                 ],
               ),
             ),
-            const Positioned(
-              right: 200,
-              top: 200,
+            Positioned(
+              top: height*(0.3),
+              left: width*(0.3),
+              right: width*(0.3),
+              child: gameStatusWidget(ref)),
+            Positioned(
+              right: 0,
+              top: height*(0.3),
               bottom: 0,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: HiveWidget(),
-              ),
+              child: HiveWidget(),
             ),
           ],
-        ),
+        ), gameScreenWidth: width,
+        gameScreenHeight: height,
       ),
     );
   }

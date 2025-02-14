@@ -14,14 +14,16 @@ class AntWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
     String antImagePath = getStringFromAnt(ant);
     return Column(
       children: [
         Text(ant.currHealth.toString()),
         Image.asset(
           antImagePath,
-          width: 45,
-          height: 45,
+          height: height*0.1,
+          width: width*0.1,
         ),
       ],
     );

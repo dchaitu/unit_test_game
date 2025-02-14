@@ -19,23 +19,31 @@ class TileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
 
     List<Widget> generateBees = List.generate(tile.bees!.length, (index) {
       return Positioned(
-        top: 10,
-        left: (10 + 10 * index).toDouble(),
-        child: (tile.isBeePresent==true)? BeeWidget(bee: tile.bees![index],
-
-        ):const SizedBox(),
+        top: 0,
+        left: (9*(1+index) ).toDouble(),
+        child:  Stack(
+          children: [
+            (tile.isBeePresent==true)? FittedBox(
+                  child: BeeWidget(
+                    bee: tile.bees![index],
+                  ),
+                )
+              : const SizedBox()
+        ]
+        ),
       );
     });
 
     Widget tileBgImage(String imageUrl, Widget childWidget)
     {
       return Container(
-        height: 80,
-        width: 80,
+        height: height*0.15,
+        width: width*0.08,
         margin: const EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
           image: DecorationImage(

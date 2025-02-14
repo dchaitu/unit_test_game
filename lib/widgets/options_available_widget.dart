@@ -12,6 +12,7 @@ class OptionsAvailableWidget extends ConsumerWidget {
 
     return Row(
       mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InkWell(
           onTap: () {
