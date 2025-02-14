@@ -1,16 +1,10 @@
-# unit_test_game
+# Ant vs Bees
 
-A new Flutter project.
+A Flutter Web App project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project contains 3 types of Ants in a tunnel each consuming a different quantity of food.
+Each ant can attack at different ranges in the tunnel.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The game will be completed if either the ants destroy all the bees in the hive or the bees reach the starting point of the ant tunnel. 
