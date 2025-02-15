@@ -85,17 +85,18 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 ],
               ),
             ),
-            Positioned(
-              top: height*(0.3),
-              left: width*(0.3),
-              right: width*(0.3),
-              child: gameStatusWidget(ref)),
+
             Positioned(
               right: 0,
               top: height*(0.3),
               bottom: 0,
               child: HiveWidget(),
             ),
+            Positioned(
+                top: height*(0.1),
+                left: width*(0.2),
+                right: width*(0.2),
+                child: gameStatusWidget(ref)),
           ],
         ), gameScreenWidth: width,
         gameScreenHeight: height,

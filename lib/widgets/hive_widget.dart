@@ -13,19 +13,23 @@ class HiveWidget extends ConsumerWidget {
     final double width = MediaQuery.of(context).size.width;
 
     int numBees = ref.watch(gameStateProvider).beesInHive;
-    return Container(
-      // color: Colors.blue,
-      width:width*0.5 ,
-      child: GridView.count(
-        crossAxisCount: 5,
-        children: generateBees(numBees),
+    return SizedBox(
+      width:width*0.4 ,
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+        crossAxisSpacing: 0
+        ),
+        itemCount: numBees,
+        itemBuilder: (BuildContext context, int index) {
+          return generateBee();
+        },
+
       ),
     );
   }
 }
 
-List<Widget> generateBees(beeNo) {
-  return List.generate(beeNo, (index) {
+Widget generateBee() {
     return const FittedBox(fit: BoxFit.scaleDown, child: BeeWidget(bee: Bee()));
-  });
 }

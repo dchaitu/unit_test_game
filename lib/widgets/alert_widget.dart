@@ -14,7 +14,7 @@ class AlertWidget extends ConsumerWidget {
     return AlertDialog(
       backgroundColor: bgColor,
       insetPadding:const EdgeInsets.all(100),
-      title: Center(child: const Text('Game Completed',style: TextStyle(color: Colors.white),)),
+      title: const Center(child: Text('Game Completed',style: TextStyle(color: Colors.white),)),
       content: SizedBox(
           width: width*0.5,
           height: height*0.2,
