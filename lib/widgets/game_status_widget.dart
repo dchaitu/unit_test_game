@@ -19,15 +19,17 @@ bool isBeesPresentInTheTunnels(WidgetRef ref) {
 
 Widget gameStatusWidget(WidgetRef ref) {
   if (ref.read(gameStateProvider).gameStatus.beesWon) {
-    return const Center(
-      child: AlertWidget(result: "Bees Won", bgColor: Colors.redAccent,)
-    );
+    return const AlertWidget(
+        result: "Tough Luck Bees Won",
+        bgColor: Colors.white54,
+        comment: 'You lost and the bees live on.');
   } else if (ref.read(gameStateProvider).gameStatus.antsWon &&
       ref.watch(gameStateProvider).beesInHive <= 0 &&
       isBeesPresentInTheTunnels(ref)) {
-    return const Center(
-        child: AlertWidget(result: "Ants Won",bgColor: Colors.lightGreen,)
-    );
+    return const AlertWidget(
+        result: "Congratulations Ants Won",
+        bgColor: Colors.white54,
+        comment: 'You successfully defeated the bees!');
   }
   return const SizedBox();
 }

@@ -62,7 +62,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Center(child: const OptionsAvailableWidget()),
+                  const Center(child: OptionsAvailableWidget()),
                   SizedBox(
                     height: height*(0.2 ),
                     child: const FittedBox(
@@ -90,7 +90,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               right: 0,
               top: height*(0.3),
               bottom: 0,
-              child: HiveWidget(),
+              child: const HiveWidget(),
             ),
             Positioned(
                 top: height*(0.1),

@@ -19,31 +19,31 @@ class TileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
+    // Calculate tile size based on screen width
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double tileSize = screenWidth * 0.08; // 8% of screen width
+    final double tileHeight = tileSize * 0.8; // Reduced height for better tunnel visibility
+    
+    // Calculate bee size as 85% of tile size (within 80-90% range)
+    final double beeSize = tileSize * 0.85;
 
     List<Widget> generateBees = List.generate(tile.bees!.length, (index) {
       return Positioned(
-        top: 0,
-        left: (9*(1+index) ).toDouble(),
-        child:  Stack(
-          children: [
-            (tile.isBeePresent==true)? FittedBox(
-                  child: BeeWidget(
-                    bee: tile.bees![index],
-                  ),
-                )
-              : const SizedBox()
-        ]
-        ),
+        top: (tileSize * 0.5) - (beeSize / 2), // Center vertically
+        left: (beeSize * 0.5 * index), // Space out bees horizontally
+        child: tile.isBeePresent == true
+            ? BeeWidget(
+                bee: tile.bees![index],
+                size: beeSize,
+              )
+            : const SizedBox(),
       );
     });
 
-    Widget tileBgImage(String imageUrl, Widget childWidget)
-    {
+    Widget tileBgImage(String imageUrl, Widget childWidget) {
       return Container(
-        height: height*0.15,
-        width: width*0.08,
+        height: tileHeight,
+        width: tileSize,
         margin: const EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -51,41 +51,50 @@ class TileWidget extends ConsumerWidget {
             fit: BoxFit.fill,
           ),
         ),
-        child: childWidget
+        child: childWidget,
       );
     }
 
     return GestureDetector(
-      onTap: ()
-      {
+      onTap: () {
         ref.read(gameStateProvider.notifier).addImgToTile(tile);
-
       },
       child: Column(
-          children: [
-
-            tileBgImage(tile.skyTileImgUrl,(tile.isBeePresent)
-                ? Stack(
-              children: generateBees,
-            )
-                : const SizedBox()
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Sky tile with bees
+          SizedBox(
+            height: tileSize,
+            width: tileSize,
+            child: tileBgImage(
+              tile.skyTileImgUrl,
+              tile.isBeePresent
+                  ? Stack(
+                      clipBehavior: Clip.none,
+                      children: generateBees,
+                    )
+                  : const SizedBox(),
             ),
-
-          tileBgImage(tile.groundTileImgUrl,
-
-          (tile.isAntPresent && tile.antImagePath != null)
-              ? FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: AntWidget(
-                      ant: tile.ant!,
-                  ),
-                )
-              : const SizedBox(),
-        ),
-      ]),
+          ),
+          // Ground tile with ant
+          SizedBox(
+            height: tileHeight,
+            width: tileSize,
+            child: tileBgImage(
+              tile.groundTileImgUrl,
+              tile.isAntPresent && tile.antImagePath != null
+                  ? FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: AntWidget(
+                        ant: tile.ant!,
+                        size: tileSize * 0.8, // Make ant size consistent with bees
+                      ),
+                    )
+                  : const SizedBox(),
+            ),
+          ),
+        ],
+      ),
     );
   }
-
-
-
 }

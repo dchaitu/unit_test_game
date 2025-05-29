@@ -5,25 +5,39 @@ import 'package:unit_test_game/models/ant.dart';
 
 class AntWidget extends ConsumerWidget {
   final Ant ant;
+  final double? size;
 
   const AntWidget({
     super.key,
     required this.ant,
-
+    this.size,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
+    // Use the provided size or calculate based on screen size
+    final double antSize = size ?? MediaQuery.of(context).size.shortestSide * 0.08;
     String antImagePath = getStringFromAnt(ant);
+    
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(ant.currHealth.toString()),
-        Image.asset(
-          antImagePath,
-          height: height*0.1,
-          width: width*0.1,
+        Text(
+          ant.currHealth.toString(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+          ),
+        ),
+        const SizedBox(height: 2),
+        SizedBox(
+          width: antSize,
+          height: antSize,
+          child: Image.asset(
+            antImagePath,
+            fit: BoxFit.contain,
+          ),
         ),
       ],
     );

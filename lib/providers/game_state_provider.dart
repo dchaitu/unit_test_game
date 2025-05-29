@@ -120,9 +120,9 @@ class GameStateNotifier extends StateNotifier<GameState> {
         gameTiles[i - 1] =
             gameTiles[i - 1].copyWith(bees: [...?gameTiles[i - 1].bees, ...?presentBees]);
         updatedTiles = updatedTiles.map((tile) {
-          if (tile.tileKey == gameTiles[i].tileKey)
+          if (tile.tileKey == gameTiles[i].tileKey) {
             return gameTiles[i];
-          else if (tile.tileKey == gameTiles[i - 1].tileKey)
+          } else if (tile.tileKey == gameTiles[i - 1].tileKey)
             return gameTiles[i - 1];
           return tile;
         }).toList();
@@ -142,7 +142,7 @@ class GameStateNotifier extends StateNotifier<GameState> {
 
     updatedTiles = updatedTiles.map((oldTile) {
       if (endTiles.any((endTile) => endTile.tileKey == oldTile.tileKey)) {
-        return oldTile.copyWith(bees: <Bee>[...oldTile.bees!, Bee()]);
+        return oldTile.copyWith(bees: <Bee>[...oldTile.bees!, const Bee()]);
       }
       return oldTile;
     }).toList();
@@ -213,7 +213,7 @@ class GameStateNotifier extends StateNotifier<GameState> {
 
       int row = int.parse(currentTile.tileKey.split('_')[1]);
       int col = int.parse(currentTile.tileKey.split('_')[2]);
-      String nextTileKey = currentTile.tileKey.split('_')[0] + '_'+ row.toString() + '_'+(col+1).toString() ;
+      String nextTileKey = '${currentTile.tileKey.split('_')[0]}_${row}_${col+1}' ;
 
       if (currentTile.isBeePresent) {
         return currentTile;

@@ -21,6 +21,7 @@ Bee _$BeeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Bee {
   int get currHealth => throw _privateConstructorUsedError;
+  bool get isMoving => throw _privateConstructorUsedError;
 
   /// Serializes this Bee to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +37,7 @@ abstract class $BeeCopyWith<$Res> {
   factory $BeeCopyWith(Bee value, $Res Function(Bee) then) =
       _$BeeCopyWithImpl<$Res, Bee>;
   @useResult
-  $Res call({int currHealth});
+  $Res call({int currHealth, bool isMoving});
 }
 
 /// @nodoc
@@ -54,12 +55,17 @@ class _$BeeCopyWithImpl<$Res, $Val extends Bee> implements $BeeCopyWith<$Res> {
   @override
   $Res call({
     Object? currHealth = null,
+    Object? isMoving = null,
   }) {
     return _then(_value.copyWith(
       currHealth: null == currHealth
           ? _value.currHealth
           : currHealth // ignore: cast_nullable_to_non_nullable
               as int,
+      isMoving: null == isMoving
+          ? _value.isMoving
+          : isMoving // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -70,7 +76,7 @@ abstract class _$$BeeImplCopyWith<$Res> implements $BeeCopyWith<$Res> {
       __$$BeeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int currHealth});
+  $Res call({int currHealth, bool isMoving});
 }
 
 /// @nodoc
@@ -85,20 +91,25 @@ class __$$BeeImplCopyWithImpl<$Res> extends _$BeeCopyWithImpl<$Res, _$BeeImpl>
   @override
   $Res call({
     Object? currHealth = null,
+    Object? isMoving = null,
   }) {
     return _then(_$BeeImpl(
       currHealth: null == currHealth
           ? _value.currHealth
           : currHealth // ignore: cast_nullable_to_non_nullable
               as int,
+      isMoving: null == isMoving
+          ? _value.isMoving
+          : isMoving // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$BeeImpl implements _Bee {
-  const _$BeeImpl({this.currHealth = 2});
+class _$BeeImpl extends _Bee {
+  const _$BeeImpl({this.currHealth = 2, this.isMoving = false}) : super._();
 
   factory _$BeeImpl.fromJson(Map<String, dynamic> json) =>
       _$$BeeImplFromJson(json);
@@ -106,10 +117,13 @@ class _$BeeImpl implements _Bee {
   @override
   @JsonKey()
   final int currHealth;
+  @override
+  @JsonKey()
+  final bool isMoving;
 
   @override
   String toString() {
-    return 'Bee(currHealth: $currHealth)';
+    return 'Bee(currHealth: $currHealth, isMoving: $isMoving)';
   }
 
   @override
@@ -118,12 +132,14 @@ class _$BeeImpl implements _Bee {
         (other.runtimeType == runtimeType &&
             other is _$BeeImpl &&
             (identical(other.currHealth, currHealth) ||
-                other.currHealth == currHealth));
+                other.currHealth == currHealth) &&
+            (identical(other.isMoving, isMoving) ||
+                other.isMoving == isMoving));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, currHealth);
+  int get hashCode => Object.hash(runtimeType, currHealth, isMoving);
 
   /// Create a copy of Bee
   /// with the given fields replaced by the non-null parameter values.
@@ -141,13 +157,16 @@ class _$BeeImpl implements _Bee {
   }
 }
 
-abstract class _Bee implements Bee {
-  const factory _Bee({final int currHealth}) = _$BeeImpl;
+abstract class _Bee extends Bee {
+  const factory _Bee({final int currHealth, final bool isMoving}) = _$BeeImpl;
+  const _Bee._() : super._();
 
   factory _Bee.fromJson(Map<String, dynamic> json) = _$BeeImpl.fromJson;
 
   @override
   int get currHealth;
+  @override
+  bool get isMoving;
 
   /// Create a copy of Bee
   /// with the given fields replaced by the non-null parameter values.

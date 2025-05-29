@@ -10,7 +10,7 @@ class CustomTimer {
     // If the timer is already running, do nothing
     if (_timer != null && _timer!.isActive) return;
 
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _currentTime++;
       _controller.add(_currentTime); // Emit the current time
     });

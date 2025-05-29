@@ -4,15 +4,25 @@ part 'bee.g.dart';
 part 'bee.freezed.dart';
 
 @freezed
-class Bee with _$Bee{
+class Bee with _$Bee {
   static const imagePath = ImageAssets.bee;
   static const damage = 1;
   static const maxHealth = 2;
+  
+  const Bee._();
+  
   const factory Bee({
     @Default(2) int currHealth,
+    @Default(false) bool isMoving,
+  }) = _Bee;
 
-}) = _Bee;
+  factory Bee.fromJson(Map<String, dynamic> json) => _$BeeFromJson(json);
 
-factory Bee.fromJson(Map<String, dynamic> json) => _$BeeFromJson(json);
-
+  Bee moveToNextTile() {
+    return copyWith(isMoving: true);
+  }
+  
+  Bee finishMove() {
+    return copyWith(isMoving: false);
+  }
 }
