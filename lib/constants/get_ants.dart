@@ -32,3 +32,6 @@ String getStringFromAnt(Ant ant)
 
   return antImgPath;
 }
+
+const int totalBeesInHive = 18;
+const int availableFood = 30;

@@ -14,11 +14,11 @@ class HiveWidget extends ConsumerWidget {
 
     int numBees = ref.watch(gameStateProvider).beesInHive;
     return SizedBox(
-      width:width*0.4 ,
+      width:width*0.2,
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-        crossAxisSpacing: 0
+            crossAxisCount: 6,
+            crossAxisSpacing: 0
         ),
         itemCount: numBees,
         itemBuilder: (BuildContext context, int index) {

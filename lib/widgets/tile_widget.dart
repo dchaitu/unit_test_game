@@ -21,15 +21,15 @@ class TileWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Calculate tile size based on screen width
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double tileSize = screenWidth * 0.08; // 8% of screen width
-    final double tileHeight = tileSize * 0.8; // Reduced height for better tunnel visibility
+    final double tileSize = screenWidth * 0.06; // 8% of screen width
+    final double tileHeight = tileSize * 0.6; // Reduced height for better tunnel visibility
     
     // Calculate bee size as 85% of tile size (within 80-90% range)
-    final double beeSize = tileSize * 0.85;
+    final double beeSize = tileSize * 0.6;
 
     List<Widget> generateBees = List.generate(tile.bees!.length, (index) {
       return Positioned(
-        top: (tileSize * 0.5) - (beeSize / 2), // Center vertically
+        top: (tileSize * 0.2) - (beeSize / 2), // Center vertically
         left: (beeSize * 0.5 * index), // Space out bees horizontally
         child: tile.isBeePresent == true
             ? BeeWidget(
