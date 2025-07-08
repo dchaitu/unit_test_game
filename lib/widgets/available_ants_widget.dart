@@ -38,7 +38,7 @@ class AvailableAntsWidget extends ConsumerWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Image.asset(antImg, height: 50, width: 50),
+            Image.asset(antImg, height: 20, width: 20),
             Text(antName),
             const Divider(thickness: 12, height: 2, color: Colors.black),
             Text(foodCost.toString()),
@@ -57,13 +57,18 @@ class AvailableAntsWidget extends ConsumerWidget {
       Ant? ant = getAntFromImage(antImg);
       allAnts.add(addAnt(ant!, ref));
     }
-    return Row(children: allAnts);
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: allAnts);
 
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
     return Container(
+
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white),
         padding: const EdgeInsets.all(8),
         child: getAllAnts(ref),

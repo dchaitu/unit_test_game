@@ -38,6 +38,18 @@ List<Tile> allTiles = [
     bees: [],
   ),
   Tile(
+    tileKey: "tileKey_0_5",
+    groundTileImgUrl: ImageAssets.groundTile1,
+    skyTileImgUrl: ImageAssets.sky1,
+    bees: [],
+  ),
+  Tile(
+    tileKey: "tileKey_0_6",
+    groundTileImgUrl: ImageAssets.groundTile1,
+    skyTileImgUrl: ImageAssets.sky1,
+    bees: [],
+  ),
+  Tile(
     tileKey: "tileKey_1_0",
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
@@ -66,7 +78,61 @@ List<Tile> allTiles = [
     groundTileImgUrl: ImageAssets.groundTile1,
     skyTileImgUrl: ImageAssets.sky1,
     bees: [],
-  )
+  ),
+  Tile(
+    tileKey: "tileKey_1_5",
+    groundTileImgUrl: ImageAssets.groundTile1,
+    skyTileImgUrl: ImageAssets.sky1,
+    bees: [],
+  ),
+  Tile(
+    tileKey: "tileKey_1_6",
+    groundTileImgUrl: ImageAssets.groundTile1,
+    skyTileImgUrl: ImageAssets.sky1,
+    bees: [],
+  ),
+  Tile(
+    tileKey: "tileKey_2_0",
+    groundTileImgUrl: ImageAssets.groundTile1,
+    skyTileImgUrl: ImageAssets.sky1,
+    bees: [],
+  ),
+  Tile(
+    tileKey: "tileKey_2_1",
+    groundTileImgUrl: ImageAssets.groundTile1,
+    skyTileImgUrl: ImageAssets.sky1,
+    bees: [],
+  ),
+  Tile(
+    tileKey: "tileKey_2_2",
+    groundTileImgUrl: ImageAssets.groundTile1,
+    skyTileImgUrl: ImageAssets.sky1,
+    bees: [],
+  ),
+  Tile(
+    tileKey: "tileKey_2_3",
+    groundTileImgUrl: ImageAssets.groundTile1,
+    skyTileImgUrl: ImageAssets.sky1,
+    bees: [],
+  ),
+  Tile(
+    tileKey: "tileKey_2_4",
+    groundTileImgUrl: ImageAssets.groundTile1,
+    skyTileImgUrl: ImageAssets.sky1,
+    bees: [],
+  ),
+  Tile(
+    tileKey: "tileKey_2_5",
+    groundTileImgUrl: ImageAssets.groundTile1,
+    skyTileImgUrl: ImageAssets.sky1,
+    bees: [],
+  ),
+  Tile(
+    tileKey: "tileKey_2_6",
+    groundTileImgUrl: ImageAssets.groundTile1,
+    skyTileImgUrl: ImageAssets.sky1,
+    bees: [],
+  ),
 ];
 
 final tilesProvider = Provider<List<Tile>>((ref) {
