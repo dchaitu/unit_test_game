@@ -7,15 +7,11 @@ import 'package:unit_test_game/models/ant.dart';
 import 'package:unit_test_game/constants/get_ants.dart';
 
 class AvailableAntsWidget extends ConsumerWidget {
-
   final List<String> antImgUrls;
 
   const AvailableAntsWidget({super.key, required this.antImgUrls});
 
-
-
-  Widget addAnt(Ant ant, WidgetRef ref)
-  {
+  Widget addAnt(Ant ant, WidgetRef ref) {
     String antName;
     int foodCost;
     String? antImg = getStringFromAnt(ant);
@@ -25,12 +21,10 @@ class AvailableAntsWidget extends ConsumerWidget {
     } else if (antImg == LongThrowerAnt.antImagePath) {
       antName = LongThrowerAnt.name;
       foodCost = LongThrowerAnt.food;
-
     } else {
       antName = Ant.name;
       foodCost = Ant.food;
     }
-
 
     return InkWell(
       onTap: () => ref.read(gameStateProvider.notifier).selectAnt(antImg),
@@ -48,30 +42,23 @@ class AvailableAntsWidget extends ConsumerWidget {
     );
   }
 
-
-  Widget getAllAnts(WidgetRef ref)
-  {
+  Widget getAllAnts(WidgetRef ref) {
     List<Widget> allAnts = [];
-    for(String antImg in antImgUrls)
-    {
+    for (String antImg in antImgUrls) {
       Ant? ant = getAntFromImage(antImg);
       allAnts.add(addAnt(ant!, ref));
     }
     return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: allAnts);
-
+        mainAxisAlignment: MainAxisAlignment.spaceAround, children: allAnts);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
     return Container(
-
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.white),
-        padding: const EdgeInsets.all(8),
-        child: getAllAnts(ref),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10), color: Colors.white),
+      padding: const EdgeInsets.all(8),
+      child: getAllAnts(ref),
     );
   }
 }

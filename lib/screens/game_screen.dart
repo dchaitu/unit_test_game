@@ -63,19 +63,6 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Center(child: OptionsAvailableWidget()),
-                  SizedBox(
-                    height: height*(0.2 ),
-                    child: const FittedBox(
-                      fit: BoxFit.contain,
-                      child: AvailableAntsWidget(
-                        antImgUrls: [
-                          ImageAssets.antLongthrower,
-                          ImageAssets.antThrower,
-                          ImageAssets.antShortthrower,
-                        ],
-                      ),
-                    ),
-                  ),
                   Row(
                     children: [
                       Expanded(child: createGameView(ref)),
@@ -85,6 +72,21 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 ],
               ),
             ),
+            Positioned(
+              top: height*(0.1),
+              right: width*(0.1),
+              child: const FittedBox(
+                fit: BoxFit.contain,
+                child: AvailableAntsWidget(
+                  antImgUrls: [
+                    ImageAssets.antLongthrower,
+                    ImageAssets.antThrower,
+                    ImageAssets.antShortthrower,
+                  ],
+                ),
+              ),
+            ),
+
 
             Positioned(
               right: width*(0.1),
@@ -96,7 +98,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 top: height*(0.1),
                 left: width*(0.2),
                 right: width*(0.2),
-                child: gameStatusWidget(ref)),
+                child: gameStatusWidget(ref),
+            ),
           ],
         ), gameScreenWidth: width,
         gameScreenHeight: height,
